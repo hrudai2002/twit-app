@@ -1,0 +1,25 @@
+.leftBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.leftMain {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 4px; 
+    color: #D6D9DB !important;
+    font-size: 24px;
+}
+
+.sec {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}

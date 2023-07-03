@@ -1,0 +1,29 @@
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    background-color: rgb(0, 0, 0);
+}
+
+.main {
+    display: flex;
+    flex-direction: row; 
+    flex: 1;
+}
+
+.left {
+    width: 30%;
+    height: 100vh;
+    border-right: 2px solid #1D1F21;
+}
+
+.middle {
+    width: 40%;
+    height: 100vh;
+}
+
+.right {
+    width: 30%;
+    height: 100vh;
+    border-left: 2px solid #1D1F21;
+}
