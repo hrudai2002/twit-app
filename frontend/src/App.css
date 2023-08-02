@@ -27,3 +27,13 @@
     height: 100vh;
     border-left: 2px solid #1D1F21;
 }
+
+.login-container {
+    width: '100vw';
+    height: '100vh'; 
+    background-color: '#242d35'; 
+    display: 'flex';
+    justify-content: 'center'; 
+    align-items: 'center';
+    flex-direction: 'column'
+}
