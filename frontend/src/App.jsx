@@ -1,11 +1,11 @@
 import './App.css'
-import LoginPage from './screens/login';
+import AuthPage from './screens/auth';
 import { LeftBar } from './components/LeftBar/left-bar';
 
 
 function App() {
   return (
-    <LoginPage />
+    <AuthPage />
     // <LeftBar />
   )
 }
