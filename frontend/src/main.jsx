@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import { createContext } from 'react'
+import { UserProvider } from './@generics/contexts/userContext.jsx'
 
-const userContext = createContext();
 
-const [user, setUser] = useState(null);
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />
+  }
+]);
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <userContext.Provider value={{ user, setUser }}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-  </userContext.Provider>
+  <React.StrictMode>
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  </React.StrictMode>
 )

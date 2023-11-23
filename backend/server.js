@@ -4,6 +4,7 @@ dotenv.config();
 import cookieParser from 'cookie-parser';
 import connectDb from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
+import cors from 'cors';
 
 
 const port = process.env.PORT || 5000;
@@ -17,11 +18,12 @@ const app = express();
 
 /*  know more about https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded */
 app.use(express.json()); 
+app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
 app.use(cookieParser()); 
 
-app.use('/api/users', userRoutes);
+app.use('/user', userRoutes);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

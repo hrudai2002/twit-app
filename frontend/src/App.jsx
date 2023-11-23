@@ -5,8 +5,7 @@ import { LeftBar } from './components/LeftBar/left-bar';
 
 function App() {
   return (
-    <AuthPage />
-    // <LeftBar />
+    <h1>Hello World</h1>
   )
 }
 
