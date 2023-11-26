@@ -103,7 +103,6 @@ function AuthPage() {
             if(res.data.token) {
                 localStorage.setItem('user', JSON.stringify(res.data));
             }
-            console.log('logged in successfully');
             setLogin(true);
         })
     }

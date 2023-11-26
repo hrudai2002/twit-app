@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Rubik&display=swap');
+
 * {
     margin: 0; 
     padding: 0; 
     box-sizing: border-box;
     background-color: rgb(0, 0, 0);
+    font-family: 'Roboto', sans-serif;
 }
 
 .main {
@@ -107,4 +110,75 @@
     flex-direction: 'column';
     padding: 8px;
     border-radius: 10px;
+}
+
+.home {
+    display: flex; 
+    height: 100vh;
+    flex: 1;
+    color: #D6D9DB !important;
+}
+
+.navbar {
+    flex: 1;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    border-right: 1px solid rgb(47, 51, 54);
+    gap: 20px;
+
+    .navbar-container {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    .list-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .post-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #1c9bef; 
+        color: #D6D9DB !important;
+        padding: 15px 90px; 
+        border-radius: 25px;
+        list-style: none;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        .fullname {
+            text-transform: capitalize;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .username {
+            font-size: 18px;
+            color: #5f6467;
+        }
+    }
+}
+
+.feed {
+    flex: 2;
+}
+
+.sidebar {
+    flex: 1;
 }
