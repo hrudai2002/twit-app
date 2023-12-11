@@ -15,7 +15,7 @@ import { UserContext } from '../contexts/userContext';
 
 function App() {
 
-    const [ user ] = useContext(UserContext);
+    const user = useContext(UserContext);
 
     const navbar = [
         {
@@ -74,8 +74,8 @@ function App() {
                     <div className="profile">
                         <FaRegUserCircle fontSize={40} />
                         <div className='user'>
-                            <div className='fullname'>{ user.name }</div>
-                            <div className='username'>@{user.name}</div>
+                            <div className='fullname'>{ user?.name }</div>
+                            <div className='username'>@{user?.name}</div>
                         </div>
                     </div>
                 </div>

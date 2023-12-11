@@ -1,22 +1,29 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ReactDOM from 'react-dom/client'
-import App from './screens/index'
-import { UserProvider } from './contexts/userContext.jsx'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
+import App from './screens/index';
+import AuthPage from './screens/auth';
+import { UserProvider } from './contexts/userContext.jsx';
+import PrivateRouter from './private-route/privateRoute';
 
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />
+    path: '/', 
+    element: <PrivateRouter><App/></PrivateRouter>,
+  },
+  {
+    path: '/auth', 
+    element: <AuthPage />
   }
-]);
+])
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
   </React.StrictMode>
 )

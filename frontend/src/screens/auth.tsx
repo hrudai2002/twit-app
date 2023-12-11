@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import axios from 'axios';
 import { environmentApi } from "../environment";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -67,7 +68,7 @@ const Signup = (props: any) => {
 }
 
 function AuthPage() {
-    
+    console.log('auth page');
     const [ user, setUser ] = useState({
         name: '', 
         email: '', 
@@ -75,7 +76,7 @@ function AuthPage() {
     });
     const [next, setNext] = useState<boolean>(false);
     const [login, setLogin] = useState<boolean>(true);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         setUser({ name: '', email: '', password: '' })
@@ -104,7 +105,21 @@ function AuthPage() {
                 localStorage.setItem('user', JSON.stringify(res.data));
             }
             setLogin(true);
+            navigate('/');
         })
+    }
+
+    const renderContent = () => {
+        if(next || login) {
+            return <Login 
+            user={user} 
+            next={next} 
+            setUser={setUser} 
+            setLogin={setLogin} 
+            setNext={setNext} login={loginUser} />
+        }
+        
+        return <Signup user={user} setUser={setUser} signUp={signUp} />
     }
 
     return (
@@ -115,10 +130,7 @@ function AuthPage() {
                     <FaTwitter fontSize={30} color='#fff' />
                 </div>
                 <div className='login-content' style={{ paddingLeft: next ? '4rem' : '8rem', paddingRight: next ? '4rem' : '8rem' }}>
-                    {
-                        next ? <Login user={user} next={next} setUser={setUser} setLogin={setLogin} setNext={setNext} login={loginUser} />  :
-                         <> { login ? <Login user={user} next={next} setUser={setUser} setLogin={setLogin} setNext={setNext} login={loginUser} /> : <Signup user={user} setUser={setUser} signUp={signUp} /> } </> 
-                    }
+                    { renderContent() }
                 </div>
             </div>
         </div>

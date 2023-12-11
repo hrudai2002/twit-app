@@ -1,11 +1,8 @@
 import { createContext, useEffect, useState } from "react";
-import AuthPage from "../screens/auth";
-
-
 export const UserContext = createContext();
 
 export const isAuthenticated = () => {
-    const user = localStorage.getItem('user'); 
+    const user = localStorage.getItem('user');
     if(!user) {
         return null;
     }
@@ -13,22 +10,20 @@ export const isAuthenticated = () => {
 }
 
 export const UserProvider = ({ children }) => {
-    const [ currentUser, setCurrentUser ] = useState(null); 
+    const [ user, setUser ] = useState(null);
 
     useEffect(() => {
-        let user = isAuthenticated();
-        if(!user) {
+        let loggedUser = isAuthenticated();
+        if(!loggedUser) {
             localStorage.setItem('user', ''); 
-            user = '';
+            loggedUser = '';
         }
-        setCurrentUser(user);
-    }, [localStorage]); 
-
-    
+        setUser(loggedUser);
+    }, []); 
 
     return (
-        <UserContext.Provider value={[currentUser, setCurrentUser]}>
-            { currentUser?.token ? children : <AuthPage /> }
+        <UserContext.Provider value={user}>
+            { children }
         </UserContext.Provider>
     )
 }
