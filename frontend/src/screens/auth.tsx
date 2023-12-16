@@ -68,7 +68,6 @@ const Signup = (props: any) => {
 }
 
 function AuthPage() {
-    console.log('auth page');
     const [ user, setUser ] = useState({
         name: '', 
         email: '', 
@@ -77,11 +76,6 @@ function AuthPage() {
     const [next, setNext] = useState<boolean>(false);
     const [login, setLogin] = useState<boolean>(true);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setUser({ name: '', email: '', password: '' })
-    }, [login])
-
 
     // authenticate user
     const signUp = () => {
@@ -101,11 +95,13 @@ function AuthPage() {
             email: user.email, 
             password: user.password 
         }).then((res) => {
-            if(res.data.token) {
+            if(res.data.success) {
                 localStorage.setItem('user', JSON.stringify(res.data));
             }
             setLogin(true);
             navigate('/');
+        }).catch((err) => {
+            console.log(err.response.data.message);
         })
     }
 
@@ -123,14 +119,16 @@ function AuthPage() {
     }
 
     return (
-        <div className='login-container'>
-            <div className='login-dialog'>
-                <div className='login-header'>
-                    <RxCross2 fontSize={20} color='#fff' style={{ position: 'absolute', zIndex: 3, left: 0, top: 0 }} />
-                    <FaTwitter fontSize={30} color='#fff' />
-                </div>
-                <div className='login-content' style={{ paddingLeft: next ? '4rem' : '8rem', paddingRight: next ? '4rem' : '8rem' }}>
-                    { renderContent() }
+        <div>
+            <div className='login-container'>
+                <div className='login-dialog'>
+                    <div className='login-header'>
+                        <RxCross2 fontSize={20} color='#fff' style={{ position: 'absolute', zIndex: 3, left: 0, top: 0 }} />
+                        <FaTwitter fontSize={30} color='#fff' />
+                    </div>
+                    <div className='login-content' style={{ paddingLeft: next ? '4rem' : '8rem', paddingRight: next ? '4rem' : '8rem' }}>
+                        { renderContent() }
+                    </div>
                 </div>
             </div>
         </div>
