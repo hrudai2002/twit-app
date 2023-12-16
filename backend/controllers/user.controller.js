@@ -15,19 +15,25 @@ const authUser = async (req, res) => {
         const user = await User.findOne({ email }); 
         const matchPassword = await bcrypt.compare(password, user.password); 
 
-        if(!user || !matchPassword) 
-           throw Error('Invalid email or password');
+        if(!user) {
+            throw 'Invalid email id';
+        }
+
+        if(!matchPassword) {
+            throw 'inncorrect password'
+        }
 
         const token = generateToken(res, user._id);
         return res.status(200).json({
             _id: user._id, 
             name: user.name, 
             email: user.email,
-            token
+            token, 
+            success: true
         })
         
     } catch (error) {
-        return res.status(404).json({message: error.message});
+        return res.status(404).json({message: error, success: false});
     }
 };
 
