@@ -1,4 +1,4 @@
-import Posts from './../models/posts.model.js';
+import Posts from '../models/post.model.js';
 
 
 // @route - /posts
