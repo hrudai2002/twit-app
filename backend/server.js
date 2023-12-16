@@ -1,17 +1,16 @@
 import express from 'express'; 
-import dotenv from 'dotenv'; 
-dotenv.config();
 import cookieParser from 'cookie-parser';
 import connectDb from './config/db.js';
 import userRoutes from './routes/user.router.js';
+import postsRoutes from './routes/posts.router.js';
 import cors from 'cors';
+import dotenv from 'dotenv'; 
+dotenv.config();
 
 
 const port = process.env.PORT || 5000;
 
 connectDb();
-
-
 
 const app = express(); 
 
@@ -24,6 +23,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser()); 
 
 app.use('/user', userRoutes);
+app.use('/posts', postsRoutes);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

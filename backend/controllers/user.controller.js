@@ -4,11 +4,10 @@ import bcrypt from 'bcryptjs';
 
 /*
   @desc - auth user and get token
-  @route - /api/users/auth
+  @route - /user/auth
   @access - Public
 
 */
-
 
 const authUser = async (req, res) => {
     try {
@@ -35,7 +34,7 @@ const authUser = async (req, res) => {
 /* 
 
 @desc register the user
-@auth /api/users
+@auth /user
 @access public
 
 */
@@ -80,7 +79,7 @@ const registerUser = async (req, res) => {
 /* 
 
 @desc logout the user
-@auth /api/users/logout
+@route /user/logout
 @access public
 
 */
@@ -97,7 +96,7 @@ const logoutUser = (req, res) => {
 /* 
 
  @desc    Get user profile
- @route   GET /api/users/profile
+ @route   GET user/profile
  @access  Private
 
 */
@@ -120,7 +119,7 @@ const getUserProfile = async (req, res) => {
 
 
 // @desc    Update user profile
-// @route   PUT /api/users/profile
+// @route   PUT user/profile
 // @access  Private 
 
 const updateUserProfile = async (req, res) => {
