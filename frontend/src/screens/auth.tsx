@@ -79,15 +79,19 @@ function AuthPage() {
 
     // authenticate user
     const signUp = () => {
+        console.log(user);
         axios.post(environmentApi.host + '/user', { 
             name: user.name, 
             email: user.email, 
             password: user.password 
         }).then((res) => {
             if(res.data.token) {
+                console.log(res.data);
                 localStorage.setItem('user', JSON.stringify(res.data));
             }
-            setUser({ name: '', email: '', password: '' });
+            navigate('/');
+        }).catch((err) => {
+            console.log(err);
         })
     }
     const loginUser = () => {

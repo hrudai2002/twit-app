@@ -1,5 +1,6 @@
 import '../App.scss'; 
 import React, { useContext, useState } from 'react';
+import { UserContext } from '../contexts/userContext';
 
 // icons
 import { RiHome5Line, RiFileList2Fill  } from "react-icons/ri";
@@ -11,9 +12,14 @@ import { FaUser } from "react-icons/fa6";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
+import { FaRegImage } from "react-icons/fa6";
+import { MdOutlineGifBox } from "react-icons/md";
+import { BsEmojiSmile } from "react-icons/bs";
+import { RiListRadio } from "react-icons/ri";
+import { GrSchedulePlay } from "react-icons/gr";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 
-import { UserContext } from '../contexts/userContext';
 
 
 
@@ -80,7 +86,7 @@ function App() {
                     }
                     <a href="" className='post-btn'>Post</a>
                     <div className="profile">
-                        <FaRegUserCircle fontSize={40} />
+                        <img className='user-dp' src={user?.imageUrl} alt="" />
                         <div className='user'>
                             <div className='fullname'>{ user?.name }</div>
                             <div className='username'>@{user?.name}</div>
@@ -89,40 +95,59 @@ function App() {
                 </div>
             </div>
             <div className="feed">
-                    <div className="feed-header">
-                        <div className='feed-header-nav'>
+                <div className="feed-header">
+                    <div className='feed-header-nav'>
+                        <div 
+                        className="for-you" 
+                        style={{ 
+                            color: selectedTab === 'For you' ?  '#fff' : '#5f6467',
+                            fontWeight: selectedTab === 'For you' ? 'bold' : 'normal'
+                        }}
+                        onClick={() => changeTab('For you')}
+                        >
                             <div 
-                            className="for-you" 
-                            style={{ 
-                                color: selectedTab === 'For you' ?  '#fff' : '#5f6467',
-                                fontWeight: selectedTab === 'For you' ? 'bold' : 'normal'
-                            }}
-                            onClick={() => changeTab('For you')}
-                            >
-                                <div 
-                                className='text'
-                                style={{
-                                    borderBottom: selectedTab === 'For you' ? '2px solid #1c9bef' : 'none'
-                                }}>For you</div>
-                            </div>
-                            <div 
-                            className="following" 
+                            className='text'
                             style={{
-                                color: selectedTab === 'Following' ? '#fff' : '#5f6467', 
-                                fontWeight: selectedTab === 'Following' ? 'bold' : 'normal'
-                            }}
-                            onClick={() => changeTab('Following')}
-                            >
-                                <div className='text'
-                                style={{
-                                    borderBottom: selectedTab === 'Following' ? '2px solid #1c9bef' : 'none'
-                                }}>Following</div>
-                            </div>
+                                borderBottom: selectedTab === 'For you' ? '2px solid #1c9bef' : 'none'
+                            }}>For you</div>
                         </div>
-                        <div className="settings-icon">
-                          <FiSettings />
+                        <div 
+                        className="following" 
+                        style={{
+                            color: selectedTab === 'Following' ? '#fff' : '#5f6467', 
+                            fontWeight: selectedTab === 'Following' ? 'bold' : 'normal'
+                        }}
+                        onClick={() => changeTab('Following')}
+                        >
+                            <div className='text'
+                            style={{
+                                borderBottom: selectedTab === 'Following' ? '2px solid #1c9bef' : 'none'
+                            }}>Following</div>
                         </div>
                     </div>
+                    <div className="settings-icon">
+                        <FiSettings />
+                    </div>
+                </div>
+
+                <div className="create-post">
+                    <div className="top-part">
+                       <img className='user-dp' src={user?.imageUrl} alt="" />
+                        <textarea rows={2} id="post-input" placeholder='What is happening?!'></textarea>
+                    </div>
+                    <div className="bottom-part">
+                        <div></div>
+                        <div className="media-icons">
+                            <FaRegImage fontSize={20} />
+                            <MdOutlineGifBox fontSize={20} />
+                            <RiListRadio fontSize={20} />
+                            <BsEmojiSmile fontSize={20} />
+                            <GrSchedulePlay fontSize={20} />
+                            <FaMapMarkerAlt fontSize={20} opacity={0.5} />
+                        </div>
+                        <a href="" className='post-button'>Post</a>
+                    </div>
+                </div>
             </div>
             <div className="sidebar"></div>
         </div>

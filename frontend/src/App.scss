@@ -156,6 +156,14 @@
             font-size: 18px;
             color: #5f6467;
         }
+
+        .user-dp {
+            width: 50px; 
+            height: 50px;
+            background-color: #1c9bef;
+            border-radius: 50%;
+            padding: 5px;
+        }
     }
 }
 
@@ -223,6 +231,75 @@
         }
     }
 
+    .create-post {
+        border-bottom: 1px solid rgb(47, 51, 54);
+        display: flex; 
+        flex-direction: column; 
+        gap: 15px;
+        padding: 12px 15px;
+
+        .top-part {
+            flex: 1;
+            display: flex; 
+            flex-direction: row;
+            gap: 15px;
+
+            .user-dp {
+                width: 50px; 
+                height: 50px;
+                background-color: #1c9bef;
+                border-radius: 50%;
+                padding: 5px;
+            }
+
+            #post-input {
+                font-size: 20px;
+                padding: 10px 0;
+                flex: 1;
+                border: none;
+                color: #fff;
+                resize: none;
+
+                &:focus {
+                    outline: none;
+
+                    border-bottom: 1px solid rgb(47, 51, 54);
+                }
+            }
+        }
+
+        .bottom-part {
+            flex: 1;
+            display: flex;
+            flex-direction: row; 
+            justify-content: space-between;
+            align-items: center;
+
+            div { flex: 0.1 }
+
+            .media-icons {
+                flex: 1;
+                display: flex; 
+                flex-direction: row; 
+                gap: 15px; 
+                color: #1c9bef;
+
+            }
+            .post-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #1c9bef; 
+                color: #D6D9DB !important;
+                padding: 10px 20px; 
+                border-radius: 20px;
+                list-style: none;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+    }
 
 }
 
