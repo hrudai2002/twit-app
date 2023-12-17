@@ -1,5 +1,5 @@
 import '../App.scss'; 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 // icons
 import { RiHome5Line, RiFileList2Fill  } from "react-icons/ri";
@@ -10,12 +10,17 @@ import { FaTwitter } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { FaRegUserCircle } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
+
+
 import { UserContext } from '../contexts/userContext';
+
 
 
 function App() {
 
     const user = useContext(UserContext);
+    const [selectedTab, setSelectedTab] = useState('For you');
 
     const navbar = [
         {
@@ -56,6 +61,9 @@ function App() {
         }
     ]
 
+    const changeTab = (tab: string) => {
+        setSelectedTab(tab);
+    }
 
     return (
         <div className="home">
@@ -80,7 +88,42 @@ function App() {
                     </div>
                 </div>
             </div>
-            <div className="feed"></div>
+            <div className="feed">
+                    <div className="feed-header">
+                        <div className='feed-header-nav'>
+                            <div 
+                            className="for-you" 
+                            style={{ 
+                                color: selectedTab === 'For you' ?  '#fff' : '#5f6467',
+                                fontWeight: selectedTab === 'For you' ? 'bold' : 'normal'
+                            }}
+                            onClick={() => changeTab('For you')}
+                            >
+                                <div 
+                                className='text'
+                                style={{
+                                    borderBottom: selectedTab === 'For you' ? '2px solid #1c9bef' : 'none'
+                                }}>For you</div>
+                            </div>
+                            <div 
+                            className="following" 
+                            style={{
+                                color: selectedTab === 'Following' ? '#fff' : '#5f6467', 
+                                fontWeight: selectedTab === 'Following' ? 'bold' : 'normal'
+                            }}
+                            onClick={() => changeTab('Following')}
+                            >
+                                <div className='text'
+                                style={{
+                                    borderBottom: selectedTab === 'Following' ? '2px solid #1c9bef' : 'none'
+                                }}>Following</div>
+                            </div>
+                        </div>
+                        <div className="settings-icon">
+                          <FiSettings />
+                        </div>
+                    </div>
+            </div>
             <div className="sidebar"></div>
         </div>
     )

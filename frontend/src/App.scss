@@ -8,29 +8,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.main {
-    display: flex;
-    flex-direction: row; 
-    flex: 1;
-}
-
-.left {
-    width: 30%;
-    height: 100vh;
-    border-right: 2px solid #1D1F21;
-}
-
-.middle {
-    width: 40%;
-    height: 100vh;
-}
-
-.right {
-    width: 30%;
-    height: 100vh;
-    border-left: 2px solid #1D1F21;
-}
-
+// login css
 .login-container {
     width: 100vw;
     height: 100vh; 
@@ -112,6 +90,9 @@
     border-radius: 10px;
 }
 
+
+// home page css
+
 .home {
     display: flex; 
     height: 100vh;
@@ -119,8 +100,11 @@
     color: #D6D9DB !important;
 }
 
+
+
+// navbar css
 .navbar {
-    flex: 1;
+    flex: 0.9;
     font-size: 24px;
     display: flex;
     flex-direction: column;
@@ -175,10 +159,75 @@
     }
 }
 
+
+
+//  feed css
 .feed {
-    flex: 2;
+    flex: 1.4;
+    border-right: 1px solid rgb(47, 51, 54);
+
+    .feed-header {
+        flex: 1; 
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid rgb(47, 51, 54);
+
+        .feed-header-nav {
+            flex: 1;
+            display: flex; 
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            
+            .for-you {
+                flex: 1;
+                display: flex;
+                justify-content: center; 
+                align-items: center;
+
+                &:hover {
+                    background-color: #2b2b2c;
+                    cursor: pointer;
+                    .text {
+                        background-color: #2b2b2c;
+                    }
+                }
+                .text { 
+                    padding: 15px 
+                } 
+            }
+
+            .following {
+                flex: 1;
+                display: flex; 
+                justify-content: center;
+                align-items: center; 
+
+                &:hover {
+                    background-color: #2b2b2c;
+                    cursor: pointer;
+                    .text {
+                        background-color: #2b2b2c;
+                    }
+                }
+                .text { padding: 15px; }
+            }
+        }
+
+        .settings-icon {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .text { padding: 15px }
+        }
+    }
+
+
 }
 
+
+// sidebar css
 .sidebar {
     flex: 1;
 }
