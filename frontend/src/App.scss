@@ -262,7 +262,6 @@
 
                 &:focus {
                     outline: none;
-
                     border-bottom: 1px solid rgb(47, 51, 54);
                 }
             }
@@ -306,5 +305,29 @@
 
 // sidebar css
 .sidebar {
-    flex: 1;
+    flex: 0.8;
+    padding: 10px 20px;
+    
+    .search-input {
+        background-color: #202327;
+        border-radius: 20px;
+        padding: 9px;
+        border-radius: 20px;
+        padding-left: 40px;
+        font-size: 14px;
+        input {
+            background-color: #202327;
+            width: 100%;
+            color: #fff;
+            border: none;
+
+            &::placeholder {
+                color: red;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 }
