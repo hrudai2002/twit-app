@@ -1,6 +1,8 @@
 import '../App.scss'; 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts/userContext';
+import axios from 'axios';
+import { environmentApi } from '../environment';
 
 // icons
 import { RiHome5Line, RiFileList2Fill  } from "react-icons/ri";
@@ -159,14 +161,19 @@ function Feed(props: any) {
                         <GrSchedulePlay fontSize={18} />
                         <FaMapMarkerAlt fontSize={18} opacity={0.5} />
                     </div>
-                    <a href="" className='post-button' style={{ 
+                    <a href="" className='post-button' onClick={() => props.createPost(post)} style={{ 
                         opacity: disable ? 0.5 : 1,  
                         pointerEvents: disable ? 'none' : 'initial'
                     }}>Post</a>
                 </div>
             </div>
 
-            <PostCard />
+            {
+                props?.posts.map((post) => (
+                    <PostCard post={post} />
+                ))
+            }
+
         </div>
     )
 }
@@ -193,19 +200,34 @@ function App() {
 
     const user = useContext(UserContext);
     const [selectedTab, setSelectedTab] = useState<string>(SelectedTabs.For_You);
+    const [ posts, setPosts ] = useState<any>([]);
+
+    useEffect(() => {
+        axios.get(environmentApi.host + '/posts')
+        .then((res: any) => {
+            setPosts(res.data.posts);
+        })
+    }, []);
 
     const changeTab = (tab: string) => {
         setSelectedTab(tab);
     }
 
-    const createPost = (post: string) => {}
+    const createPost = (post: string) => {
+        axios.post(environmentApi.host + '/posts', { user: user._id, description: post })
+        .then((res) => {
+            posts.unshift(res.data.post);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
 
     return (
         <div className="home">
             <Navbar user={user} />
             <div style={{flex: 1, display: 'flex', overflowY: 'auto'}}>
-                <Feed user={user} selectedTab={selectedTab} changeTab={changeTab} createPost={createPost} />
-                {/* <div className="vertical-line"></div> */}
+                <Feed user={user} posts={posts} selectedTab={selectedTab} changeTab={changeTab} createPost={createPost} />
                 <SideBar />
             </div>
         </div>

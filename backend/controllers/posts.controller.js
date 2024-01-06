@@ -4,7 +4,11 @@ import Posts from '../models/post.model.js';
 // @route - /posts
 const getAllPosts = async (req, res) => {
     try {
-        const posts = await Posts.find({}).lean();
+        const posts 
+        = await Posts.find({})
+                    .sort({ createdAt: -1 })
+                    .populate('user')
+                    .lean();
         return res.json({ posts, success: true });
     } catch (err) {
         return res.json({ error: err.message, success: false });
@@ -16,12 +20,12 @@ const getAllPosts = async (req, res) => {
 const createPost = async (req, res) => {
     try {
         const { user, description } = req.body; 
-        await Posts.create({
+        const post = await Posts.create({
             description, 
             user
         });
-        
-        return res.json({ success: true })
+
+        return res.json({ post, success: true })
 
     } catch (err) {
         return res.json({ error: err.message, success: false })
