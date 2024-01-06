@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Rubik&display=swap');
 
 * {
     margin: 0; 
@@ -6,6 +7,16 @@
     box-sizing: border-box;
     background-color: rgb(0, 0, 0);
     font-family: 'Roboto', sans-serif;
+}
+
+// global
+
+.user-dp {
+    width: 50px; 
+    height: 50px;
+    background-color: #1c9bef;
+    border-radius: 50%;
+    padding: 5px;
 }
 
 // login css
@@ -98,13 +109,14 @@
     height: 100vh;
     flex: 1;
     color: #D6D9DB !important;
+    overflow: hidden;
 }
 
 
 
 // navbar css
 .navbar {
-    flex: 0.9;
+    flex: 0.4;
     font-size: 24px;
     display: flex;
     flex-direction: column;
@@ -157,13 +169,6 @@
             color: #5f6467;
         }
 
-        .user-dp {
-            width: 50px; 
-            height: 50px;
-            background-color: #1c9bef;
-            border-radius: 50%;
-            padding: 5px;
-        }
     }
 }
 
@@ -172,6 +177,7 @@
 //  feed css
 .feed {
     flex: 1.4;
+    height: 100%;
     border-right: 1px solid rgb(47, 51, 54);
 
     .feed-header {
@@ -274,7 +280,7 @@
             justify-content: space-between;
             align-items: center;
 
-            div { flex: 0.1 }
+            div { flex: 0.15 }
 
             .media-icons {
                 flex: 1;
@@ -302,32 +308,118 @@
 
 }
 
+.vertical-line {
+    background-color: rgb(47, 51, 54);
+    width: 1px;
+    height: 100vh;
+}
 
-// sidebar css
+// sidebar css 16181c
 .sidebar {
     flex: 0.8;
-    padding: 10px 20px;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
     
     .search-input {
+        display: flex;
+        gap: 20px;
+        padding: 10px 15px;
+        justify-content: center;
+        align-items: center;
+
         background-color: #202327;
         border-radius: 20px;
-        padding: 9px;
         border-radius: 20px;
-        padding-left: 40px;
         font-size: 14px;
         input {
             background-color: #202327;
             width: 100%;
             color: #fff;
             border: none;
-
-            &::placeholder {
-                color: red;
-            }
-
+            font-size: 15px;
+            
             &:focus {
                 outline: none;
             }
+        }
+    }
+
+    .subscribe {
+        display: flex;
+        flex-direction: column; 
+        gap: 10px;
+        padding: 18px;
+        background-color: rgb(22, 24, 28);
+        border-radius: 15px;
+
+        .heading {
+            font-weight: 800; 
+            font-size: 20px;
+            color: #fff;
+            background-color: #16181c !important;
+        }
+
+        .desc {
+            color: #fff;
+            font-size: 16px;
+            background-color: #16181c !important;
+        }
+
+        .subscribe-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1c9bef; 
+            color: #D6D9DB !important;
+            padding: 10px; 
+            border-radius: 20px;
+            list-style: none;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            width: 40%;
+        }
+    }
+}
+
+
+// Post Card 
+
+.post-card {
+    padding: 12px 15px;
+    display: flex;    
+    flex-direction: column;
+    gap: 12px;
+    border-bottom: 1px solid rgb(47, 51, 54);
+    border-right: 1px solid rgb(47, 51, 54);
+    
+    .top-container {
+        display: flex;
+        align-items: center; 
+        gap: 15px;
+
+        .header {
+            display: flex;
+            gap: 10px;
+
+            .user-name {
+                font-weight: 700;
+                font-size: 16px;
+            }
+        }
+    }
+    .bottom-container {
+        display: flex;
+        justify-content: space-around;
+
+
+        .likes, .comments, .reposts, .bookmarks {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
     }
 }

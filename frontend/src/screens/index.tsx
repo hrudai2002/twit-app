@@ -18,6 +18,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { RiListRadio } from "react-icons/ri";
 import { GrSchedulePlay } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa"
+import PostCard from '../components/postCard';
 
 const SelectedTabs = {
     For_You: 'For you', 
@@ -64,6 +65,7 @@ function Navbar(props: any) {
             name: 'More'
         }
     ]
+
     return (
         <div className="navbar">
             <div className="navbar-container">
@@ -92,6 +94,9 @@ function Navbar(props: any) {
 
 
 function Feed(props: any) {
+    const [disable, setDisable] = useState<boolean>(true);
+    const [post, setPost] = useState<string>('');
+
     return (
         <div className="feed">
             <div className="feed-header">
@@ -132,21 +137,36 @@ function Feed(props: any) {
             <div className="create-post">
                 <div className="top-part">
                     <img className='user-dp' src={props.user?.imageUrl} alt="" />
-                    <textarea rows={2} id="post-input" placeholder='What is happening?!'></textarea>
+                    <textarea rows={1} id="post-input" 
+                    placeholder='What is happening?!'
+                    onChange={(e) => {
+                        if(e.target.value.length > 0 && disable) {
+                            setDisable(false);
+                        } else if(e.target.value.length == 0) {
+                            setDisable(true);
+                        }
+                        setPost(e.target.value);
+                    }}
+                    ></textarea>
                 </div>
                 <div className="bottom-part">
                     <div></div>
                     <div className="media-icons">
-                        <FaRegImage fontSize={20} />
-                        <MdOutlineGifBox fontSize={20} />
-                        <RiListRadio fontSize={20} />
-                        <BsEmojiSmile fontSize={20} />
-                        <GrSchedulePlay fontSize={20} />
-                        <FaMapMarkerAlt fontSize={20} opacity={0.5} />
+                        <FaRegImage fontSize={18} />
+                        <MdOutlineGifBox fontSize={18} />
+                        <RiListRadio fontSize={18} />
+                        <BsEmojiSmile fontSize={18} />
+                        <GrSchedulePlay fontSize={18} />
+                        <FaMapMarkerAlt fontSize={18} opacity={0.5} />
                     </div>
-                    <a href="" className='post-button'>Post</a>
+                    <a href="" className='post-button' style={{ 
+                        opacity: disable ? 0.5 : 1,  
+                        pointerEvents: disable ? 'none' : 'initial'
+                    }}>Post</a>
                 </div>
             </div>
+
+            <PostCard />
         </div>
     )
 }
@@ -155,8 +175,14 @@ function SideBar(props: any) {
     return (
         <div className="sidebar">
             <div className="search-input">
-                <CiSearch />
-                <input type="text" name="" id="Search" />
+                <CiSearch size={24} style={{ backgroundColor: '#202327' }} />
+                <input type="text" name="" placeholder='Search' />
+            </div>
+
+            <div className="subscribe">
+                <div className='heading'>Subscribe to Premium</div>
+                <div className='desc'>Subscribe to unlock new features and if eligible, receive a share of ads revenue.</div>
+                <a href="" className='subscribe-btn'>Subscribe</a>
             </div>
         </div>
     )
@@ -166,17 +192,22 @@ function SideBar(props: any) {
 function App() {
 
     const user = useContext(UserContext);
-    const [selectedTab, setSelectedTab] = useState(SelectedTabs.For_You);
+    const [selectedTab, setSelectedTab] = useState<string>(SelectedTabs.For_You);
 
     const changeTab = (tab: string) => {
         setSelectedTab(tab);
     }
 
+    const createPost = (post: string) => {}
+
     return (
         <div className="home">
             <Navbar user={user} />
-            <Feed user={user} selectedTab={selectedTab} changeTab={changeTab} />
-            <SideBar />
+            <div style={{flex: 1, display: 'flex', overflowY: 'auto'}}>
+                <Feed user={user} selectedTab={selectedTab} changeTab={changeTab} createPost={createPost} />
+                {/* <div className="vertical-line"></div> */}
+                <SideBar />
+            </div>
         </div>
     )
 }
