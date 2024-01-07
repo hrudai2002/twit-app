@@ -12,7 +12,6 @@ import { IoPeopleSharp } from "react-icons/io5";
 import { FaTwitter } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
-import { FaRegUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { FaRegImage } from "react-icons/fa6";
 import { MdOutlineGifBox } from "react-icons/md";
