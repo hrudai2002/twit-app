@@ -5,7 +5,6 @@
     margin: 0; 
     padding: 0; 
     box-sizing: border-box;
-    background-color: rgb(0, 0, 0);
     font-family: 'Roboto', sans-serif;
 }
 
@@ -33,6 +32,7 @@
 
 
 .login-dialog {
+    background-color: rgb(0, 0, 0);
     border-radius: 10px;
     padding: 15px;
     display: flex;
@@ -84,7 +84,8 @@
     flex: 1;
     font-size: 17px; 
     border: 1px solid #2d3032;
-    border-radius: 5px
+    border-radius: 5px;
+    background-color: rgb(0, 0, 0);
 }
 
 .login-username:focus {
@@ -110,6 +111,7 @@
     flex: 1;
     color: #D6D9DB !important;
     overflow: hidden;
+    background-color: rgb(0, 0, 0);
 }
 
 
@@ -265,6 +267,7 @@
                 border: none;
                 color: #fff;
                 resize: none;
+                background-color: rgb(0, 0, 0);
 
                 &:focus {
                     outline: none;
@@ -397,7 +400,7 @@
     
     .top-container {
         display: flex;
-        align-items: center; 
+        align-items: flex-start; 
         gap: 15px;
 
         .header {
@@ -423,3 +426,90 @@
         }
     }
 }
+
+.commentModal {
+    background: rgb(0, 0, 0) !important;
+    border-radius: 10px;
+    border: 1.5px solid rgb(47, 51, 54);
+    color: #fff;
+    width: 50%;
+    padding: 0;
+
+    .post-modal {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    .top-container {
+        display: flex;
+        align-items: flex-start; 
+        gap: 15px;
+        padding-top: 10px;
+
+        .header {
+            display: flex;
+            gap: 10px;
+
+            .user-name {
+                font-weight: 700;
+                font-size: 16px;
+            }
+        }
+    }
+
+    .post-reply {
+        display: flex;
+        gap: 15px;
+
+        .post-input {
+            font-size: 20px;
+            padding: 10px 0;
+            flex: 1;
+            border: none;
+            color: #fff;
+            resize: none;
+            background-color: rgb(0, 0, 0);
+    
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .bottom-part {
+        flex: 1;
+        display: flex;
+        flex-direction: row; 
+        justify-content: space-between;
+        align-items: center;
+
+        div {
+            flex: 0.01;
+        }
+
+        .media-icons {
+            flex: 1;
+            display: flex; 
+            flex-direction: row; 
+            gap: 15px; 
+            color: #1c9bef;
+
+        }
+        .reply-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1c9bef; 
+            color: #D6D9DB !important;
+            padding: 10px 20px; 
+            border-radius: 20px;
+            list-style: none;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    }
+
+}
+

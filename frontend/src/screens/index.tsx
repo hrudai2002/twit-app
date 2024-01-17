@@ -168,8 +168,8 @@ function Feed(props: any) {
             </div>
 
             {
-                props?.posts.map((post) => (
-                    <PostCard post={post} />
+                props?.posts.map((post, index) => (
+                    <PostCard key={index} post={post} />
                 ))
             }
 
