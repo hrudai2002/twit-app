@@ -1,4 +1,4 @@
-import mongoose from "mongoose"; 
+import mongoose, { Types } from "mongoose"; 
 
 const userSchema = new mongoose.Schema(
     {
@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema(
         },
         imageUrl: {
             type: String
-        }
+        },
+        bookmarks: [{ type: Types.ObjectId, ref: 'Posts' }]
     },
     {
         timestamps: true
