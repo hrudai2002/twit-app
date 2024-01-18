@@ -14,18 +14,19 @@ const authUser = async (req, res) => {
     try {
         const {email, password} = req.body;
         const user = await User.findOne({ email }); 
-        const matchPassword = await bcrypt.compare(password, user.password); 
 
         if(!user) {
-            throw 'Invalid email id';
+            throw new Error('Invalid email id');
         }
+        
+        const matchPassword = await bcrypt.compare(password, user.password); 
 
         if(!matchPassword) {
-            throw 'inncorrect password'
+            throw new Error('inncorrect password');
         }
 
         const token = generateToken(res, user._id);
-        return res.status(200).json({
+        return res.json({
             _id: user._id, 
             name: user.name, 
             email: user.email,
@@ -35,7 +36,7 @@ const authUser = async (req, res) => {
         })
         
     } catch (error) {
-        return res.status(404).json({message: error, success: false});
+        return res.json({error: error.message, success: false});
     }
 };
 
@@ -53,7 +54,7 @@ const registerUser = async (req, res) => {
         const userExists = await User.findOne({email});  
 
         if(userExists)  {
-            throw 'User Already Exists';
+            throw new Error('User Already Exists');
         }
         
         // https://heynode.com/blog/2020-04/salt-and-hash-passwords-bcrypt/
@@ -70,20 +71,20 @@ const registerUser = async (req, res) => {
         })
 
         if(!user) 
-          throw 'Invalid User Data';
+          throw new Error('Invalid User Data');
 
           const token = generateToken(res, user._id); 
-          return res.status(201).json({
+          return res.json({
               _id: user._id, 
               name: user.name, 
               email: user.email,
               imageUrl,
-              token
+              token, 
+              success: true
           })
         
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({message: error});
+        return res.json({error: error.message, success: false});
     }
 }
 
@@ -101,7 +102,7 @@ const logoutUser = (req, res) => {
         httpOnly: true, 
         expires: new Date(0)
     });
-    res.status(200).json({message: 'Logged out successfully'});
+    res.json({message: 'Logged out successfully', success: true});
 }
 
 
@@ -117,15 +118,16 @@ const getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
         if(!user) 
-            throw 'User not found';
+            throw new Error('User not found');
 
-        return res.status(201).json({
+        return res.json({
             _id: user._id, 
             name: user.name, 
-            email: user.email
+            email: user.email,
+            success: true
         })
     } catch (error) {
-        return res.status(404).json({message: error});
+        return res.json({error: error.message, success: false});
     }
 }; 
 
@@ -139,7 +141,7 @@ const updateUserProfile = async (req, res) => {
         const user = await User.findById(req.user._id);
 
         if(!user) 
-          throw 'User not found';
+          throw new Error('User not found');
 
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email; 
@@ -150,13 +152,14 @@ const updateUserProfile = async (req, res) => {
     
         const updatedUser = await user.save(); 
     
-        return res.status(201).json({
+        return res.json({
             _id: updatedUser._id, 
             name: updatedUser.name, 
-            email: updatedUser.email
+            email: updatedUser.email,
+            success: true
         })
     } catch (error) {
-        return res.status(404).json({message: error});
+        return res.json({error: error.message, success: false});
     }
 };
 

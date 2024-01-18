@@ -6,6 +6,7 @@ import { FaApple } from "react-icons/fa";
 import axios from 'axios';
 import { environmentApi } from "../environment";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast'
 
 
 
@@ -85,13 +86,17 @@ function AuthPage() {
             email: user.email, 
             password: user.password 
         }).then((res) => {
-            if(res.data.token) {
-                console.log(res.data);
-                localStorage.setItem('user', JSON.stringify(res.data));
+            if(res.data.success) {
+                if(res.data.token) {
+                    localStorage.setItem('user', JSON.stringify(res.data));
+                }
+                navigate('/');
+                toast.success('registered successfully!');
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
             }
-            navigate('/');
         }).catch((err) => {
-            console.log(err);
+            toast.error(err.response.data.message)
         })
     }
     const loginUser = () => {
@@ -99,13 +104,17 @@ function AuthPage() {
             email: user.email, 
             password: user.password 
         }).then((res) => {
+            console.log(res.data);
             if(res.data.success) {
                 localStorage.setItem('user', JSON.stringify(res.data));
+                setLogin(true);
+                navigate('/');
+                toast.success('logged in successfully!');
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
             }
-            setLogin(true);
-            navigate('/');
         }).catch((err) => {
-            console.log(err.response.data.message);
+            toast.error(err.response.data.message);
         })
     }
 

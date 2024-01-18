@@ -36,8 +36,8 @@ function PostCard(props: any) {
 
 
     useEffect(() => {
-        const liked = !!(props?.post?.likedUsers?.find((doc) => doc.toString() === user._id.toString()));
-        const bookmarked = !!(props?.post?.bookmarkedUsers?.find((doc) => doc.toString() === user._id.toString()));
+        const liked = !!(props?.post?.likedUsers?.find((doc) => doc.toString() === user?._id?.toString()));
+        const bookmarked = !!(props?.post?.bookmarkedUsers?.find((doc) => doc.toString() === user?._id?.toString()));
 
         if(liked) {
             setLike(true);
@@ -71,6 +71,8 @@ function PostCard(props: any) {
                     user: user._id, 
                     postId: props.post._id
                 })
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
             }
         }).catch((err) => {
             toast.error(err.response.data.message);
@@ -85,10 +87,13 @@ function PostCard(props: any) {
             postId: props.post._id, 
             userId: user._id, 
         }).then((res) => {
-            if(updatedLikeVal) setLikeCount(likeCount + 1);
-            else setLikeCount(likeCount - 1);
-    
-            setLike(updatedLikeVal);
+            if(res.data.success) {
+                if(updatedLikeVal) setLikeCount(likeCount + 1);
+                else setLikeCount(likeCount - 1);
+                setLike(updatedLikeVal);
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
+            }
         }).catch((err) =>  toast.error(err.response.data.message));
 
     }

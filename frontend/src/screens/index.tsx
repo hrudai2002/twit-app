@@ -20,6 +20,7 @@ import { RiListRadio } from "react-icons/ri";
 import { GrSchedulePlay } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa"
 import PostCard from '../components/postCard';
+import { toast } from 'react-hot-toast';
 
 const SelectedTabs = {
     For_You: 'For you', 
@@ -204,8 +205,12 @@ function App() {
     useEffect(() => {
         axios.get(environmentApi.host + '/posts')
         .then((res: any) => {
-            setPosts(res.data.posts);
-        })
+            if(res.data.success) {
+                setPosts(res.data.posts);
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
+            }
+        }).catch((err) => toast.error(err.response.data.message))
     }, []);
 
     const changeTab = (tab: string) => {
@@ -215,10 +220,14 @@ function App() {
     const createPost = (post: string) => {
         axios.post(environmentApi.host + '/posts', { user: user._id, description: post })
         .then((res) => {
-            posts.unshift(res.data.post);
+            if(res.data.success) {
+                posts.unshift(res.data.post);
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
+            }
         })
         .catch((err) => {
-            console.log(err);
+            toast.error(err.response.data.message)
         })
     }
 
