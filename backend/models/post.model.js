@@ -24,10 +24,12 @@ const postsSchema = new mongoose.Schema({
             }, 
             comment: {
                 type: String
-            }
+            },
+            commentedAt: { type: Date }
         }), {default: []}
     ], 
-    likedUsers: [{ type: Types.ObjectId, ref: 'User' }]
+    likedUsers: [{ type: Types.ObjectId, ref: 'User' }], 
+    bookmarkedUsers: [{ type: Types.ObjectId, ref: 'User' }]
 }, {
     timestamps: true
 });
