@@ -70,7 +70,7 @@ const commentPost = async (req, res) => {
          await Posts.updateOne(
             { _id: postId }, 
             { 
-                $push: { comments: { user, comment } }
+                $push: { comments: { user, comment, commentedAt: new Date() } }
             }
          );
          return res.json({ success: true });
@@ -110,15 +110,21 @@ const likePost = async (req, res) => {
 const bookmarkPost = async (req, res) => {
     try {
         const { userId, postId, bookmark } = req.body; 
-        const user = await User.findById(userId);
+        const post = await Posts.findById(postId);
+        const found = !!(post.bookmarkedUsers.find((doc) => doc.toString() === userId.toString()));
 
         if(bookmark) {
-            user.bookmark.push(postId);
+            if(!found) {
+                post.bookmarkedUsers.push(userId);
+                await post.save();
+            }
         } else {
-            user.bookmark = user.bookmark.filter((doc) => doc.toString() !== postId.toString());
+            if(found) {
+                post.bookmarkedUsers = post.bookmarkedUsers.filter((doc) => doc.toString() !== userId.toString());
+                await post.save();
+            }
         }
 
-        await user.save();
         return res.json({ success: true });
     } catch (error) {
         return res.json({ error: error.message, success: false });
