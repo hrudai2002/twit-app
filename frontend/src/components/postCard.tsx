@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
+import { environmentApi } from "../environment";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
+import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 // react icons
 import { CiHeart } from "react-icons/ci";
@@ -16,8 +20,8 @@ import { RiListRadio } from "react-icons/ri";
 import { GrSchedulePlay } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { FaHeart } from "react-icons/fa";
-import axios from "axios";
-import { environmentApi } from "../environment";
+import { FaBookmark } from "react-icons/fa6";
+
 
 
 
@@ -28,13 +32,21 @@ function PostCard(props: any) {
     const [comment, setComment] = useState<string>("");
     const [like, setLike] = useState<boolean>(false);
     const [likeCount, setLikeCount] = useState<number>(0);
+    const [bookmark, setBookMark] = useState<boolean>(false);
 
 
     useEffect(() => {
-        const found = !!(props?.post?.likedUsers?.find((doc) => doc.toString() === user._id.toString()));
-        if(found) {
+        const liked = !!(props?.post?.likedUsers?.find((doc) => doc.toString() === user._id.toString()));
+        const bookmarked = !!(props?.post?.bookmarkedUsers?.find((doc) => doc.toString() === user._id.toString()));
+
+        if(liked) {
             setLike(true);
         }
+
+        if(bookmarked) {
+            setBookMark(true);
+        }
+
         setLikeCount(props.post.likes);
     }, []);
 
@@ -61,7 +73,7 @@ function PostCard(props: any) {
                 })
             }
         }).catch((err) => {
-            console.log(err.response.data.message);
+            toast.error(err.response.data.message);
         }); 
         closeModal();
     }
@@ -77,8 +89,28 @@ function PostCard(props: any) {
             else setLikeCount(likeCount - 1);
     
             setLike(updatedLikeVal);
-        }).catch((err) => console.log(err));
+        }).catch((err) =>  toast.error(err.response.data.message));
 
+    }
+
+    const saveBookmark = () => {
+        const updatedBookMark = !bookmark
+        axios.post(environmentApi.host + '/posts/bookmark', {
+            userId: user._id, 
+            postId: props.post._id, 
+            bookmark: updatedBookMark
+        }).then((res) => {
+            if(res.data.success) {
+                setBookMark(updatedBookMark);
+                if(updatedBookMark) {
+                    toast.success('Bookmarked successfully !!');
+                }
+            } else if(!res.data.success) {
+                toast.error(res.data.error);
+            }
+        }).catch((err) => {
+            toast.error(err.response.data.message);
+        });
     }
 
     return (
@@ -151,9 +183,10 @@ function PostCard(props: any) {
             </Modal>
 
             <div className="bottom-container">
+               
                 <div className="comments" onClick={() => setIsOpen(true)} >
                     <FaRegComment fontSize={16} />
-                    <div>{props.post.comments.length}</div>
+                    <div>{props.post?.comments?.length}</div>
                 </div>
                 <div className="reposts">
                     <BiRepost fontSize={20} />
@@ -162,12 +195,14 @@ function PostCard(props: any) {
                 <div className="likes">
                     {
                         like ? <FaHeart style={{color: 'rgb(249, 25, 127)'}} onClick={() => saveLike()} /> 
-                        :  <CiHeart fontSize={22} onClick={() => saveLike() } />
+                        :  <CiHeart onClick={() => saveLike() } />
                     }
                     <div>{ likeCount }</div>
                 </div>
-                <div className="bookmarks">
-                    <RiBookmarkLine fontSize={18} />
+                <div className="bookmarks"> 
+                {
+                    bookmark ? <FaBookmark style={{ color: '#1c9bef' }} fontSize={18} onClick={() => saveBookmark()} /> : <RiBookmarkLine fontSize={18} onClick={() => saveBookmark()} />
+                }
                 </div>
             </div>
         </div>

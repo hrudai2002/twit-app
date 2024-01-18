@@ -5,6 +5,7 @@ import App from './screens/index';
 import AuthPage from './screens/auth';
 import { UserProvider } from './contexts/userContext.jsx';
 import PrivateRouter from './private-route/privateRoute';
+import { Toaster } from 'react-hot-toast';
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <UserProvider>
         <RouterProvider router={router} />
+        <Toaster />
       </UserProvider>
   </React.StrictMode>
 )
