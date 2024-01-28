@@ -21,6 +21,7 @@ import { GrSchedulePlay } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { FaHeart } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
+import moment from 'moment';
 
 
 
@@ -51,8 +52,17 @@ function PostCard(props: any) {
     }, []);
 
     const formatDate = (dateString: string) => {
-        const date: Date = new Date(dateString); 
-        return date.getHours() + ':' + date.getMinutes();
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const date : Date = new Date(dateString); 
+        const now : Date = new Date(); 
+
+        const minutes = moment(now).diff(date, 'minutes')  
+        const hours = moment(now).diff(date, 'hours');
+
+        if(minutes < 60) return minutes + "m"; 
+        if(hours < 24) return hours + "h";
+
+        return date.getDate() + " " + months[date.getMonth()] + "," + date.getFullYear();
     }
 
     const closeModal = () => {
