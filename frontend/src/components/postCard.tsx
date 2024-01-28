@@ -56,9 +56,11 @@ function PostCard(props: any) {
         const date : Date = new Date(dateString); 
         const now : Date = new Date(); 
 
+        const seconds = moment(now).diff(date, 'seconds');
         const minutes = moment(now).diff(date, 'minutes')  
         const hours = moment(now).diff(date, 'hours');
 
+        if(seconds < 60) return seconds + "s";
         if(minutes < 60) return minutes + "m"; 
         if(hours < 24) return hours + "h";
 
