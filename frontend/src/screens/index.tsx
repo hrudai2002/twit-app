@@ -245,6 +245,36 @@ function Messages(props: any){
     }
 
     const Users = () => {
+        const [selectedUser, setSelectedUser] = useState<number>(1);
+        const users = [
+            {
+                name: 'Aman', 
+                lastMessage: 'Hello User-1 !!', 
+                date: new Date(), 
+                imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User1', 
+                _id: 1,
+            },
+            {
+                name: 'Harsh', 
+                lastMessage: 'Hello User-1 !!', 
+                date: new Date(), 
+                imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-2', 
+                _id: 2,
+            },
+            {
+                name: 'Manoj', 
+                lastMessage: 'Hello User-1 !!', 
+                date: new Date(),
+                imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-3', 
+                _id: 3,
+            }
+        ];
+
+        const getDate = (date: Date) : string =>  {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+        }
+
         return (
             <div className="users">
                 <div className="heading">
@@ -254,9 +284,30 @@ function Messages(props: any){
                         <LuMailPlus fontSize={18} fontWeight="bold" />
                     </div>
                 </div>
-                <div className="search-input">
-                    <CiSearch size={24} style={{ backgroundColor: '#202327' }} />
-                    <input type="text" name="" placeholder='Search' />
+                <div> 
+                    <div className='search'>
+                        <div className="search-input">
+                            <CiSearch size={24} style={{ backgroundColor: '#202327' }} />
+                            <input type="text" name="" placeholder='Search' />
+                        </div>
+                    </div>
+                    <div className='users-list'>
+                        {
+                            users.map((doc) => (
+                                <div className='flex-row-none-center-10 user'
+                                style={{ 
+                                    backgroundColor:  selectedUser === doc._id ? '#202327': 'none', 
+                                    borderRight: selectedUser === doc._id ? '1.5px solid #1c9bef' : 'none'
+                                }}>
+                                    <img src={doc.imageUrl} className='user-dp' /> 
+                                    <div className="flex-col-5">
+                                        <div><span className="font-bold">{doc.name}</span>  ·   <span style={{ color: '#71767a'}}>{getDate(doc.date)}</span></div>
+                                        <div>{doc.lastMessage}</div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
         )
@@ -277,13 +328,12 @@ function App() {
     const [showContent, setShowContent] = useState<string>("Home");
     
     const renderContent = (content: string) => {
-        // if(content == NAVBAR.HOME) {
-        //     return <HomePage user={user} />
-        // } else if(content == NAVBAR.MESSAGES) {
-        //     return <Messages user={user} />
-        // }
-        return <Messages user={user} />
-        // return <HomePage user={user} />
+        if(content == NAVBAR.HOME) {
+            return <HomePage user={user} />
+        } else if(content == NAVBAR.MESSAGES) {
+            return <Messages user={user} />
+        }
+        return <HomePage user={user} />
     }
 
     return (

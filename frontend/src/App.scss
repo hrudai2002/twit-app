@@ -11,11 +11,39 @@
 // global
 
 .user-dp {
-    width: 50px; 
-    height: 50px;
+    width: 44px; 
+    height: 44px;
     background-color: #1c9bef;
     border-radius: 50%;
     padding: 5px;
+}
+
+.flex-row {
+    display: flex; 
+    flex-direction: row; 
+}
+
+.flex-row-10 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.flex-row-none-center-10 {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    gap: 10px;
+}
+
+.flex-col-5 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.font-bold {
+    font-weight: bold;
 }
 
 // login css
@@ -138,7 +166,8 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 20px;
+        gap: 20px; 
+        cursor: pointer;
     }
 
     .post-btn {
@@ -251,14 +280,6 @@
             display: flex; 
             flex-direction: row;
             gap: 15px;
-
-            .user-dp {
-                width: 50px; 
-                height: 50px;
-                background-color: #1c9bef;
-                border-radius: 50%;
-                padding: 5px;
-            }
 
             #post-input {
                 font-size: 20px;
@@ -527,9 +548,10 @@
     gap: 25px;
     height: 100%;
     border-right: 1px solid rgb(47, 51, 54);
-    padding: 15px;
-
+    
     .heading {
+        padding: 0 15px;
+        padding-top: 15px;
         display: flex; 
         justify-content: space-between; 
         align-items: center; 
@@ -546,29 +568,44 @@
         }
     }
 
-         .search-input {
-             display: flex;
-             gap: 20px;
-             padding: 10px 15px;
-             justify-content: center;
-             align-items: center;
+    .search {
+        padding: 0 15px;
+        .search-input {
+            display: flex;
+            gap: 20px;
+            padding: 10px 15px;
+            justify-content: center;
+            align-items: center;
     
-             background-color: #202327;
-             border-radius: 20px;
-             border-radius: 20px;
-             font-size: 14px;
+            background-color: #202327;
+            border-radius: 20px;
+            border-radius: 20px;
+            font-size: 14px;
     
-             input {
-                 background-color: #202327;
-                 width: 100%;
-                 color: #fff;
-                 border: none;
-                 font-size: 15px;
+            input {
+                background-color: #202327;
+                width: 100%;
+                color: #fff;
+                border: none;
+                font-size: 15px;
     
-                 &:focus {
-                     outline: none;
-                 }
-             }
-         }
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+    }
+
+
+    .users-list {
+        display: flex; 
+        flex-direction: column; 
+        padding-top: 20px;
+        gap: 30x; 
+        
+        .user {
+            padding: 15px;
+        }
+    }
 }
 
