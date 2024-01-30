@@ -10,6 +10,8 @@
 
 // global
 
+.pd-10 { padding: 10px }
+
 .user-dp {
     width: 44px; 
     height: 44px;
@@ -36,6 +38,13 @@
     gap: 10px;
 }
 
+.flex-row-space-between-center {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
 .flex-col-5 {
     display: flex;
     flex-direction: column;
@@ -45,6 +54,8 @@
 .font-bold {
     font-weight: bold;
 }
+
+
 
 // login css
 .login-container {
@@ -539,6 +550,39 @@
 .chats {
     flex: 1.2;
     height: 100%;
+    position: relative;
+
+    .search-input {
+            display: flex;
+            gap: 20px;
+            padding: 10px 15px;
+            justify-content: center;
+            align-items: center;
+    
+            background-color: #202327;
+            border-radius: 15px;
+            font-size: 14px;
+    
+            input {
+                background-color: #202327;
+                width: 100%;
+                color: #fff;
+                border: none;
+                font-size: 15px;
+    
+                &:focus {
+                    outline: none;
+                }
+            }
+    }
+
+    .text-box {
+        width: 100%;
+        border-top: 1px solid rgb(47, 51, 54);
+        position: absolute; 
+        bottom: 0; 
+        z-index: 3;
+    }
 }
 
 .users {
@@ -578,7 +622,6 @@
             align-items: center;
     
             background-color: #202327;
-            border-radius: 20px;
             border-radius: 20px;
             font-size: 14px;
     

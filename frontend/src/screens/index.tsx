@@ -23,6 +23,8 @@ import { RiListRadio } from "react-icons/ri";
 import { GrSchedulePlay } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { LuMailPlus } from "react-icons/lu";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { VscSend } from "react-icons/vsc";
 
 
 
@@ -235,40 +237,61 @@ function HomePage(props: any){
 }
 
 function Messages(props: any){
+    const [selectedUser, setSelectedUser] = useState<any>({
+            name: 'Aman Gupta', 
+            lastMessage: 'Hello User-1 !!', 
+            date: new Date(), 
+            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User1', 
+            _id: 1,
+        });
+
+    const users = [
+        {
+            name: 'Aman Gupta', 
+            lastMessage: 'Hello User-1 !!', 
+            date: new Date(), 
+            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User1', 
+            _id: 1,
+        },
+        {
+            name: 'Harsh', 
+            lastMessage: 'Hello User-1 !!', 
+            date: new Date(), 
+            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-2', 
+            _id: 2,
+        },
+        {
+            name: 'Manoj', 
+            lastMessage: 'Hello User-1 !!', 
+            date: new Date(),
+            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-3', 
+            _id: 3,
+        }
+    ];
 
     const Chats = () => {
         return (
             <div className="chats">
+                <div className="flex-row-space-between-center font-bold" 
+                style={{padding: '15px 15px', fontSize: '18px', position: 'sticky', top: 0, zIndex: 3}}>
+                    <div>{selectedUser.name}</div>
+                    <AiOutlineInfoCircle fontSize={22} />
+                </div>
 
+                <div className='pd-10 text-box'>
+                    <div className="search-input">
+                         <FaRegImage fontSize={22} color='#1c9bef' fontWeight={'bold'} />
+                         <MdOutlineGifBox fontSize={24} color='#1c9bef' fontWeight={'bold'} /> 
+                         <BsEmojiSmile fontSize={22} color='#1c9bef' fontWeight={'bold'} />
+                         <input type="text" name="" placeholder='Start a new message' />
+                         <VscSend fontSize={24} color='#1c9bef' fontWeight={'bold'} />
+                    </div>
+                </div>
             </div>
         )
     }
 
     const Users = () => {
-        const [selectedUser, setSelectedUser] = useState<number>(1);
-        const users = [
-            {
-                name: 'Aman', 
-                lastMessage: 'Hello User-1 !!', 
-                date: new Date(), 
-                imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User1', 
-                _id: 1,
-            },
-            {
-                name: 'Harsh', 
-                lastMessage: 'Hello User-1 !!', 
-                date: new Date(), 
-                imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-2', 
-                _id: 2,
-            },
-            {
-                name: 'Manoj', 
-                lastMessage: 'Hello User-1 !!', 
-                date: new Date(),
-                imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-3', 
-                _id: 3,
-            }
-        ];
 
         const getDate = (date: Date) : string =>  {
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -296,8 +319,8 @@ function Messages(props: any){
                             users.map((doc) => (
                                 <div className='flex-row-none-center-10 user'
                                 style={{ 
-                                    backgroundColor:  selectedUser === doc._id ? '#202327': 'none', 
-                                    borderRight: selectedUser === doc._id ? '1.5px solid #1c9bef' : 'none'
+                                    backgroundColor:  selectedUser._id === doc._id ? '#202327': 'none', 
+                                    borderRight: selectedUser._id === doc._id ? '2px solid #1c9bef' : 'none'
                                 }}>
                                     <img src={doc.imageUrl} className='user-dp' /> 
                                     <div className="flex-col-5">
