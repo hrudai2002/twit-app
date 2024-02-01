@@ -269,16 +269,92 @@ function Messages(props: any){
         }
     ];
 
+    const messages = [
+        {
+            message: "Hello, How are you?", 
+            date: new Date(), 
+            me: true
+        }, 
+        {
+            message: "Yeah, I'm gud", 
+            date: new Date(), 
+            me: false
+        },
+        {
+            message: "After so long", 
+            date: new Date(), 
+            me: true
+        },
+        {
+            message: "Hello, How are you?", 
+            date: new Date(), 
+            me: false
+        }, 
+        {
+            message: "Yeah, I'm gud Yeah, I'm gud Yeah, I'm gud", 
+            date: new Date(), 
+            me: true
+        },
+        {
+            message: "After so long", 
+            date: new Date(), 
+            me: false
+        },
+        {
+            message: "After so long", 
+            date: new Date(), 
+            me: false
+        }
+    ]
+
     const Chats = () => {
         return (
             <div className="chats">
                 <div className="flex-row-space-between-center font-bold" 
-                style={{padding: '15px 15px', fontSize: '18px', position: 'sticky', top: 0, zIndex: 3}}>
+                style={{
+                    padding: '15px 15px', 
+                    fontSize: '18px',
+                    backgroundColor: 'rgb(0, 0, 0)',
+                    position: 'sticky', 
+                    top: 0, 
+                    zIndex: 3
+                }}>
                     <div>{selectedUser.name}</div>
                     <AiOutlineInfoCircle fontSize={22} />
                 </div>
 
-                <div className='pd-10 text-box'>
+                <div className="messages">
+                    {
+                        messages.map((doc) => (
+                            <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignSelf: doc.me ? 'flex-end' : 'flex-start', 
+                                maxWidth: "30%", 
+                                padding: '10px', 
+                            }}
+                            >
+                                <div className="message"
+                                style={{
+                                    borderBottomLeftRadius: doc.me ? '10px' : 'unset',
+                                    borderBottomRightRadius: doc.me ? 'unset' : '10px', 
+                                    backgroundColor: doc.me ? '#1c9bef' : '#2f3336',
+                                }}
+                                >
+                                    <div>{ doc.message }</div>
+                                </div>
+                                <div className="date"
+                                style={{ alignSelf: doc.me ? 'flex-end': 'flex-start' }}
+                                >Jul 7, 2021, 10:08 AM</div>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <div className='pd-10 text-box'
+                    style={{ backgroundColor: 'rgb(0, 0, 0)'}}
+                 >
                     <div className="search-input">
                          <FaRegImage fontSize={22} color='#1c9bef' fontWeight={'bold'} />
                          <MdOutlineGifBox fontSize={24} color='#1c9bef' fontWeight={'bold'} /> 
@@ -337,7 +413,12 @@ function Messages(props: any){
     }
 
     return ( 
-        <div style={{flex: 1, display: 'flex'}}>
+        <div
+         style={{
+            flex: 1, 
+            display: 'flex', 
+            overflow: 'hidden'
+        }}>
             <Users />
             <Chats /> 
         </div>
