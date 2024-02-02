@@ -1,16 +1,19 @@
 import express from 'express'; 
 import cookieParser from 'cookie-parser';
 import connectDb from './config/db.js';
+import cors from 'cors';
+
+// routes
 import userRoutes from './routes/user.router.js';
 import postsRoutes from './routes/posts.router.js';
-import cors from 'cors';
+import conversationRoutes from './routes/conversation.router.js';
+
 import dotenv from 'dotenv'; 
 dotenv.config();
 
-
 const port = process.env.PORT || 5001;
 
-connectDb();
+connectDb(); // connecting database
 
 const app = express(); 
 
@@ -23,7 +26,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser()); 
 
 app.use('/user', userRoutes);
-app.use('/posts', postsRoutes);
+app.use('/posts', postsRoutes); 
+app.use('/conversation', conversationRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
