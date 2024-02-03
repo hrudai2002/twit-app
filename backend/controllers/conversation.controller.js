@@ -1,8 +1,8 @@
 
-import Conversation from "../models/conversation.model";
+import Conversation from "../models/conversation.model.js";
 
 // @get 
-export const getConversations = async (req, res) => {
+const getConversations = async (req, res) => {
     try {
         const { userId } = req.params; 
 
@@ -18,7 +18,7 @@ export const getConversations = async (req, res) => {
 }
 
 // @post 
-export const updateConversation = async (req, res) => {
+const updateConversation = async (req, res) => {
     try {
         const { conversationId, sender, message } = req.body; 
         const conversationDoc = await Conversation.findById(conversationId);

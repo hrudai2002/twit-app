@@ -131,6 +131,20 @@ const getUserProfile = async (req, res) => {
     }
 }; 
 
+// @get - /:user 
+const getUsers = async (req, res) => {
+    try {
+        const { user } = req.params;
+        const userslist = await User.find({
+            _id: {$ne: user}
+        }).lean(); 
+
+        return res.json({ users: userslist, success: true });
+    } catch (error) {
+        return res.json({ error: error.message, success: false });s
+    }
+}
+
 
 // @desc    Update user profile
 // @route   PUT user/profile
@@ -169,4 +183,5 @@ export {
     logoutUser, 
     getUserProfile, 
     updateUserProfile,
+    getUsers
 }

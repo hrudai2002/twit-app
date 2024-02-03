@@ -2,7 +2,7 @@ import express from "express";
 import { 
     getConversations,
     updateConversation
-} from "../controllers/conversation.controller";
+} from "../controllers/conversation.controller.js";
 
 
 const router = express.Router();
