@@ -3,7 +3,7 @@ import { environmentApi } from "../environment";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 
 // react icons
@@ -21,7 +21,7 @@ import { GrSchedulePlay } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa"
 import { FaHeart } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
-import moment from 'moment';
+import { postFormatDate } from "../utils/common";
 
 
 
@@ -51,21 +51,7 @@ function PostCard(props: any) {
         setLikeCount(props.post.likes);
     }, []);
 
-    const formatDate = (dateString: string) => {
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const date : Date = new Date(dateString); 
-        const now : Date = new Date(); 
-
-        const seconds = moment(now).diff(date, 'seconds');
-        const minutes = moment(now).diff(date, 'minutes')  
-        const hours = moment(now).diff(date, 'hours');
-
-        if(seconds < 60) return seconds + "s";
-        if(minutes < 60) return minutes + "m"; 
-        if(hours < 24) return hours + "h";
-
-        return date.getDate() + " " + months[date.getMonth()] + "," + date.getFullYear();
-    }
+    
 
     const closeModal = () => {
         setIsOpen(false);
@@ -136,7 +122,7 @@ function PostCard(props: any) {
                 <img src={props.post.user.imageUrl} className="user-dp" alt="" />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     <div className="header">
-                        <div><span className="user-name">{props.post.user.name}</span> · <span style={{ fontSize: '14px'}}>{formatDate(props.post.createdAt)}</span></div>
+                        <div><span className="user-name">{props.post.user.name}</span> · <span style={{ fontSize: '14px'}}>{postFormatDate(props.post.createdAt)}</span></div>
                     </div>
                     <div className="description">
                         {props.post.description}
@@ -159,7 +145,7 @@ function PostCard(props: any) {
                         <img src={props.post.user.imageUrl} className="user-dp" alt="" />
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                             <div className="header">
-                                <div><span className="user-name">{props.post.user.name}</span> · <span style={{ fontSize: '14px'}}>{formatDate(props.post.createdAt)}</span></div>
+                                <div><span className="user-name">{props.post.user.name}</span> · <span style={{ fontSize: '14px'}}>{postFormatDate(props.post.createdAt)}</span></div>
                             </div>
                             <div className="description"> {props.post.description}</div>
                             <div style={{ color: 'rgb(106, 111, 114)' }}>Replying to <span style={{ color: '#1c9bef' }}>@{ props.post.user.name }</span></div>
@@ -211,14 +197,26 @@ function PostCard(props: any) {
                 </div>
                 <div className="likes">
                     {
-                        like ? <FaHeart style={{color: 'rgb(249, 25, 127)'}} onClick={() => saveLike()} /> 
+                        like ? <FaHeart 
+                        style={{
+                            color: 'rgb(249, 25, 127)'
+                        }} 
+                        onClick={() => saveLike()} /> 
                         :  <CiHeart onClick={() => saveLike() } />
                     }
                     <div>{ likeCount }</div>
                 </div>
                 <div className="bookmarks"> 
                 {
-                    bookmark ? <FaBookmark style={{ color: '#1c9bef' }} fontSize={18} onClick={() => saveBookmark()} /> : <RiBookmarkLine fontSize={18} onClick={() => saveBookmark()} />
+                    bookmark ? <FaBookmark 
+                    style={{ 
+                        color: '#1c9bef' 
+                    }} 
+                    fontSize={18} 
+                    onClick={() => saveBookmark()} /> : 
+                    <RiBookmarkLine 
+                    fontSize={18} 
+                    onClick={() => saveBookmark()} />
                 }
                 </div>
             </div>
