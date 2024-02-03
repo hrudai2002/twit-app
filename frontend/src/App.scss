@@ -8,6 +8,14 @@
     font-family: 'Roboto', sans-serif;
 }
 
+// variables 
+$twitter-blue: #1c9bef;
+$black: rgb(0, 0, 0);
+$white: #fff;
+$line: rgb(47, 51, 54);
+$modalOverlay: rgba(36, 45, 53, 0.7);
+
+
 // global
 
 .pd-10 { padding: 10px }
@@ -15,7 +23,7 @@
 .user-dp {
     width: 44px; 
     height: 44px;
-    background-color: #1c9bef;
+    background-color: $twitter-blue;
     border-radius: 50%;
     padding: 5px;
 }
@@ -71,7 +79,7 @@
 
 
 .login-dialog {
-    background-color: rgb(0, 0, 0);
+    background-color: $black;
     border-radius: 10px;
     padding: 15px;
     display: flex;
@@ -99,7 +107,7 @@
 }
 
 .login-buttons {
-    background-color: #fff; 
+    background-color: $white; 
     border-radius: 20px; 
     display: flex; 
     justify-content: center; 
@@ -118,18 +126,18 @@
 
 
 .login-username {
-    color: #fff;
+    color: $white;
     padding: 15px 10px; 
     flex: 1;
     font-size: 17px; 
     border: 1px solid #2d3032;
     border-radius: 5px;
-    background-color: rgb(0, 0, 0);
+    background-color: $black;
 }
 
 .login-username:focus {
     outline: none !important;
-    border-color: #1c9bef;
+    border-color: $twitter-blue;
 }
 
 .email {
@@ -150,7 +158,7 @@
     flex: 1;
     color: #D6D9DB !important;
     overflow: hidden;
-    background-color: rgb(0, 0, 0);
+    background-color: $black;
 }
 
 
@@ -164,7 +172,7 @@
     justify-content: flex-start;
     align-items: center;
     padding-top: 20px;
-    border-right: 1px solid rgb(47, 51, 54);
+    border-right: 1px solid $line;
     gap: 20px;
 
     .navbar-container {
@@ -185,7 +193,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #1c9bef; 
+        background-color: $twitter-blue; 
         color: #D6D9DB !important;
         padding: 15px 90px; 
         border-radius: 25px;
@@ -220,13 +228,13 @@
 .feed {
     flex: 1.4;
     height: 100%;
-    border-right: 1px solid rgb(47, 51, 54);
+    border-right: 1px solid $line;
 
     .feed-header {
         flex: 1; 
         display: flex;
         flex-direction: row;
-        border-bottom: 1px solid rgb(47, 51, 54);
+        border-bottom: 1px solid $line;
 
         .feed-header-nav {
             flex: 1;
@@ -280,7 +288,7 @@
     }
 
     .create-post {
-        border-bottom: 1px solid rgb(47, 51, 54);
+        border-bottom: 1px solid $line;
         display: flex; 
         flex-direction: column; 
         gap: 15px;
@@ -297,13 +305,13 @@
                 padding: 10px 0;
                 flex: 1;
                 border: none;
-                color: #fff;
+                color: $white;
                 resize: none;
-                background-color: rgb(0, 0, 0);
+                background-color: $black;
 
                 &:focus {
                     outline: none;
-                    border-bottom: 1px solid rgb(47, 51, 54);
+                    border-bottom: 1px solid $line;
                 }
             }
         }
@@ -322,14 +330,14 @@
                 display: flex; 
                 flex-direction: row; 
                 gap: 15px; 
-                color: #1c9bef;
+                color: $twitter-blue;
 
             }
             .post-button {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: #1c9bef; 
+                background-color: $twitter-blue; 
                 color: #D6D9DB !important;
                 padding: 10px 20px; 
                 border-radius: 20px;
@@ -344,7 +352,7 @@
 }
 
 .vertical-line {
-    background-color: rgb(47, 51, 54);
+    background-color: $line;
     width: 1px;
     height: 100vh;
 }
@@ -371,7 +379,7 @@
         input {
             background-color: #202327;
             width: 100%;
-            color: #fff;
+            color: $white;
             border: none;
             font-size: 15px;
             
@@ -392,12 +400,12 @@
         .heading {
             font-weight: 800; 
             font-size: 20px;
-            color: #fff;
+            color: $white;
             background-color: #16181c !important;
         }
 
         .desc {
-            color: #fff;
+            color: $white;
             font-size: 16px;
             background-color: #16181c !important;
         }
@@ -406,7 +414,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #1c9bef; 
+            background-color: $twitter-blue; 
             color: #D6D9DB !important;
             padding: 10px; 
             border-radius: 20px;
@@ -427,8 +435,8 @@
     display: flex;    
     flex-direction: column;
     gap: 12px;
-    border-bottom: 1px solid rgb(47, 51, 54);
-    border-right: 1px solid rgb(47, 51, 54);
+    border-bottom: 1px solid $line;
+    border-right: 1px solid $line;
     
     .top-container {
         display: flex;
@@ -460,10 +468,10 @@
 }
 
 .commentModal {
-    background: rgb(0, 0, 0) !important;
+    background: $black !important;
     border-radius: 10px;
-    border: 1.5px solid rgb(47, 51, 54);
-    color: #fff;
+    border: 1.5px solid $line;
+    color: $white;
     width: 50%;
     padding: 0;
 
@@ -499,9 +507,9 @@
             padding: 10px 0;
             flex: 1;
             border: none;
-            color: #fff;
+            color: $white;
             resize: none;
-            background-color: rgb(0, 0, 0);
+            background-color: $black;
     
             &:focus {
                 outline: none;
@@ -525,14 +533,14 @@
             display: flex; 
             flex-direction: row; 
             gap: 15px; 
-            color: #1c9bef;
+            color: $twitter-blue;
 
         }
         .reply-button {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #1c9bef; 
+            background-color: $twitter-blue; 
             color: #D6D9DB !important;
             padding: 10px 20px; 
             border-radius: 20px;
@@ -545,12 +553,18 @@
 
 }
 
+.commentModalOverlay {
+    background: $modalOverlay !important;
+}
+
 
 // Chats 
 .chats {
     flex: 1.2;
     height: 100%;
     overflow: auto;
+    display: grid;
+    grid-template-rows: 0fr 8fr 0fr;
 
     .search-input {
             display: flex;
@@ -566,7 +580,7 @@
             input {
                 background-color: #202327;
                 width: 100%;
-                color: #fff;
+                color: $white;
                 border: none;
                 font-size: 15px;
     
@@ -581,7 +595,7 @@
         flex-direction: column;
         .message {
             padding: 15px; 
-            background-color: #1c9bef; 
+            background-color: $twitter-blue; 
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             text-wrap: wrap;
@@ -596,12 +610,79 @@
 
     .text-box {
         width: 100%;
-        border-top: 1px solid rgb(47, 51, 54);
+        border-top: 1px solid $line;
         position: sticky; 
         bottom: 0; 
         z-index: 3;
     }
 }
+
+ // users mail modal 
+ .messageModal {
+     background: $black !important;
+     border-radius: 10px;
+     border: 1.5px solid $line;
+     color: $white;
+     padding: 0 !important;
+     width: 50%;
+
+     .messageModalContainer {
+        margin-top: 20px;
+     }
+
+     .message {
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        padding: 0 15px;
+        margin-bottom: 10px;
+
+        .next-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $white;
+            color: $black;
+            padding: 10px 15px;
+            border-radius: 15px;
+            list-style: none;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+     }
+
+     .search {
+        border-bottom: 1px solid $line;
+        padding-bottom: 5px;
+        .search-input {
+            display: flex;
+            gap: 20px;
+            padding: 10px 15px;
+            justify-content: center;
+            align-items: center;
+    
+            background-color: $black;
+            font-size: 14px;
+            input {
+                background-color: $black;
+                width: 100%;
+                color: $white;
+                border: none;
+                font-size: 15px;
+    
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+     }
+
+ }
+
+ .messageModalOverlay {
+    background: $modalOverlay !important;
+ }
 
 .users {
     flex: 0.9;
@@ -609,7 +690,7 @@
     flex-direction: column; 
     gap: 25px;
     height: 100%;
-    border-right: 1px solid rgb(47, 51, 54);
+    border-right: 1px solid $line;
     overflow: auto;
     
     .heading {
@@ -647,7 +728,7 @@
             input {
                 background-color: #202327;
                 width: 100%;
-                color: #fff;
+                color: $white;
                 border: none;
                 font-size: 15px;
     
