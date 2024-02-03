@@ -25,6 +25,9 @@ import { FaMapMarkerAlt } from "react-icons/fa"
 import { LuMailPlus } from "react-icons/lu";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { VscSend } from "react-icons/vsc";
+import Modal from 'react-responsive-modal';
+import { RxCross2 } from 'react-icons/rx';
+import { getusername } from '../utils/username';
 
 
 
@@ -87,7 +90,7 @@ function Navbar(props: any) {
                     <img className='user-dp' src={props.user?.imageUrl} alt="" />
                     <div className='user'>
                         <div className='fullname'>{props.user?.name}</div>
-                        <div className='username'>@{props.user?.name}</div>
+                        <div className='username'>{ getusername(props.user?.name)}</div>
                     </div>
                 </div>
             </div>
@@ -237,77 +240,36 @@ function HomePage(props: any){
 }
 
 function Messages(props: any){
-    const [selectedUser, setSelectedUser] = useState<any>({
-            name: 'Aman Gupta', 
-            lastMessage: 'Hello User-1 !!', 
-            date: new Date(), 
-            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User1', 
-            _id: 1,
-        });
+    const [selectedUser, setSelectedUser] = useState<any>(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [allUsers, setAllUsers] = useState<any>([]);
+    const [users, setUsers] = useState<any>([]);
+    const [messages, setMessages] = useState<any>([]);
 
-    const users = [
-        {
-            name: 'Aman Gupta', 
-            lastMessage: 'Hello User-1 !!', 
-            date: new Date(), 
-            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User1', 
-            _id: 1,
-        },
-        {
-            name: 'Harsh', 
-            lastMessage: 'Hello User-1 !!', 
-            date: new Date(), 
-            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-2', 
-            _id: 2,
-        },
-        {
-            name: 'Manoj', 
-            lastMessage: 'Hello User-1 !!', 
-            date: new Date(),
-            imageUrl: 'https://anonymous-animals.azurewebsites.net/avatar/User-3', 
-            _id: 3,
+    useEffect(() => {
+        if(isOpen) {
+            axios.get(environmentApi.host + `/user/${props.user._id}`)
+            .then((res: any) => {
+                if(res.data.success) {
+                    setAllUsers(res.data.users);
+                } else if(!res.success) {
+                    toast.error(res.data.error);
+                }
+            }).catch((err) => toast.error(err.response.data.message));
         }
-    ];
+    }, [isOpen])
 
-    const messages = [
-        {
-            message: "Hello, How are you?", 
-            date: new Date(), 
-            me: true
-        }, 
-        {
-            message: "Yeah, I'm gud", 
-            date: new Date(), 
-            me: false
-        },
-        {
-            message: "After so long", 
-            date: new Date(), 
-            me: true
-        },
-        {
-            message: "Hello, How are you?", 
-            date: new Date(), 
-            me: false
-        }, 
-        {
-            message: "Yeah, I'm gud Yeah, I'm gud Yeah, I'm gud", 
-            date: new Date(), 
-            me: true
-        },
-        {
-            message: "After so long", 
-            date: new Date(), 
-            me: false
-        },
-        {
-            message: "After so long", 
-            date: new Date(), 
-            me: false
-        }
-    ]
+   
+    const closeModal = () => {
+        setIsOpen(false);
+    }
 
     const Chats = () => {
+
+        if(!selectedUser) {
+            return (<div className='chats'></div>);
+        }
+
         return (
             <div className="chats">
                 <div className="flex-row-space-between-center font-bold" 
@@ -319,8 +281,9 @@ function Messages(props: any){
                     top: 0, 
                     zIndex: 3
                 }}>
-                    <div>{selectedUser.name}</div>
-                    <AiOutlineInfoCircle fontSize={22} />
+                    <div>{selectedUser?.name}</div>
+                    <AiOutlineInfoCircle 
+                    fontSize={22} />
                 </div>
 
                 <div className="messages">
@@ -345,7 +308,9 @@ function Messages(props: any){
                                     <div>{ doc.message }</div>
                                 </div>
                                 <div className="date"
-                                style={{ alignSelf: doc.me ? 'flex-end': 'flex-start' }}
+                                style={{ 
+                                    alignSelf: doc.me ? 'flex-end': 'flex-start' 
+                                }}
                                 >Jul 7, 2021, 10:08 AM</div>
                             </div>
                         ))
@@ -353,14 +318,31 @@ function Messages(props: any){
                 </div>
 
                 <div className='pd-10 text-box'
-                    style={{ backgroundColor: 'rgb(0, 0, 0)'}}
+                    style={{ backgroundColor: 'rgb(0, 0, 0)', justifySelf: 'justify-end'}}
                  >
                     <div className="search-input">
-                         <FaRegImage fontSize={22} color='#1c9bef' fontWeight={'bold'} />
-                         <MdOutlineGifBox fontSize={24} color='#1c9bef' fontWeight={'bold'} /> 
-                         <BsEmojiSmile fontSize={22} color='#1c9bef' fontWeight={'bold'} />
+                         <FaRegImage 
+                         fontSize={22} 
+                         color='#1c9bef' 
+                         fontWeight={'bold'} 
+                         />
+
+                         <MdOutlineGifBox 
+                         fontSize={24} 
+                         color='#1c9bef' 
+                         fontWeight={'bold'} /> 
+
+                         <BsEmojiSmile 
+                         fontSize={22} 
+                         color='#1c9bef' 
+                         fontWeight={'bold'} />
+
                          <input type="text" name="" placeholder='Start a new message' />
-                         <VscSend fontSize={24} color='#1c9bef' fontWeight={'bold'} />
+
+                         <VscSend 
+                         fontSize={24} 
+                         color='#1c9bef' 
+                         fontWeight={'bold'} />
                     </div>
                 </div>
             </div>
@@ -379,14 +361,94 @@ function Messages(props: any){
                 <div className="heading">
                     <div className="messages">Messages</div>
                     <div className="send-mail">
-                        <FiSettings fontSize={18} fontWeight="bold" />
-                        <LuMailPlus fontSize={18} fontWeight="bold" />
+                        <FiSettings 
+                        fontSize={18} 
+                        fontWeight="bold" 
+                        />
+                        <LuMailPlus 
+                        fontSize={18} 
+                        fontWeight="bold" 
+                        cursor="pointer"
+                        onClick={() => setIsOpen(true)}
+                         />
                     </div>
                 </div>
+                <Modal 
+                 open={isOpen} 
+                 onClose={closeModal}
+                 showCloseIcon={false}
+                 classNames={{
+                    modal: "messageModal",
+                    overlay: "messageModalOverlay"
+                 }}
+                >
+                    <div className='messageModalContainer'>
+                       <div className="message">
+                           <div className='flex-row-none-center-10' 
+                           style={{
+                            gap: '20px'
+                           }}>
+                            <RxCross2 
+                            fontSize={22} 
+                            color="#fff" 
+                            cursor={"pointer"}
+                            onClick={closeModal} />
+                            <div style={{
+                                fontSize: '22px'
+                            }}>Message</div>
+                           </div>
+                           <div>
+                            <a href="" className='next-btn'>Next</a>
+                           </div>
+                        </div>
+                        <div className='search'>
+                            <div className="search-input">
+                                <CiSearch
+                                    size={24}
+                                    style={{
+                                        backgroundColor: 'rgb(0, 0, 0)',
+                                        color: '#1c9bef'
+                                    }} />
+                                <input type="text" name="" placeholder='Search for people' />
+                            </div>
+                        </div>
+
+                        <div className='flex-col-5' 
+                        style={{
+                            gap: '25px',
+                            padding: '15px'
+                        }}
+                        >
+                            {
+                                allUsers.map((doc) => (
+                                    <div className='flex-row-none-center-10 user' 
+                                    style={{
+                                        cursor: 'pointer'
+                                    }}
+                                    onClick={() => {
+                                        setSelectedUser(doc);
+                                        closeModal();
+                                    }} 
+                                    >
+                                        <img src={doc.imageUrl} className='user-dp'/>
+                                        <div className="flex-col-5">
+                                            <div><span className="font-bold">{doc.name}</span></div>
+                                            <div>{getusername(doc.name)}</div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </Modal>
                 <div> 
                     <div className='search'>
                         <div className="search-input">
-                            <CiSearch size={24} style={{ backgroundColor: '#202327' }} />
+                            <CiSearch 
+                            size={24} 
+                            style={{ 
+                                backgroundColor: '#202327' 
+                            }} />
                             <input type="text" name="" placeholder='Search' />
                         </div>
                     </div>

@@ -150,8 +150,8 @@ function PostCard(props: any) {
             onClose={closeModal} 
             closeIcon={<RxCross2 fontSize={22} color="#fff" />}
             classNames={{
+                overlay: 'commentModalOverlay',
                 modal: 'commentModal', 
-                overlay: 'commentModalOverlay'
             }}
             >
                 <div className="post-modal">

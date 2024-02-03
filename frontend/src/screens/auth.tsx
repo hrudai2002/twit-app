@@ -80,7 +80,6 @@ function AuthPage() {
 
     // authenticate user
     const signUp = () => {
-        console.log(user);
         axios.post(environmentApi.host + '/user', { 
             name: user.name, 
             email: user.email, 
