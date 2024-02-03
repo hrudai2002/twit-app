@@ -1,38 +1,59 @@
 
 import Conversation from "../models/conversation.model.js";
+import { Types } from "mongoose";
 
 // @get 
 const getConversations = async (req, res) => {
     try {
         const { userId } = req.params; 
 
-        const conversationDocs = await Conversation.find({
-            members: {$in: userId},
-        }).populate('memembers').lean(); 
+        let conversationDocs = await Conversation.find({
+            members: {$in: new Types.ObjectId(userId)},
+        }).populate('members').lean(); 
 
-        return res.status(200).json({ conversationDocs, success: true});
+        conversationDocs = conversationDocs.map((doc) => {
+            if (doc.members[0]._id.toString() === userId.toString()) 
+               return {user: doc.members[1], chat: doc.chat, _id: doc._id}; 
+            return {user: doc.members[0], chat: doc.chat, _id: doc._id};
+        });
+
+        return res.json({ conversationDocs, success: true});
 
     } catch (error) {
-        return res.status(404).json({ error: error.message, success: false })
+        return res.json({ error: error.message, success: false })
     }
 }
 
 // @post 
 const updateConversation = async (req, res) => {
     try {
-        const { conversationId, sender, message } = req.body; 
-        const conversationDoc = await Conversation.findById(conversationId);
+        const { conversationId, sender, reciever, message } = req.body; 
 
-        conversationDoc.chat.push({
-            sender, 
-            message
-        });
+        let conversationDoc;
+       
+        if(!conversationId) {
+            conversationDoc = await Conversation.create({
+                members: [new Types.ObjectId(sender), new Types.ObjectId(reciever)], 
+                chat: [{
+                    sender, 
+                    message, 
+                    date: new Date()
+                }]
+            });
+        } else {
+           conversationDoc = await Conversation.findById(new Types.ObjectId(conversationId));
+            conversationDoc.chat.push({
+                sender, 
+                message, 
+                date: new Date()
+            });
+            await conversationDoc.save();
+        }
 
-        await conversationDoc.save();
-        return res.status(200).json({success: true});
+        return res.json({ conversationDoc, success: true});
 
     } catch (error) {
-        return res.status(404).json({ error: error.message, success: false });
+        return res.json({ error: error.message, success: false });
     }
 }
 

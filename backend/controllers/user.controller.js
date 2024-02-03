@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+import Conversation from '../models/conversation.model.js';
 import User from '../models/user.model.js';
 import generateProfileImage from '../utils/generateProfileImage.js';
 import generateToken from '../utils/generateToken.js';
@@ -139,7 +141,24 @@ const getUsers = async (req, res) => {
             _id: {$ne: user}
         }).lean(); 
 
-        return res.json({ users: userslist, success: true });
+        let result = []
+
+        for(let doc of userslist) {
+            const conversation = await Conversation.findOne({
+                $and: [
+                    {members: {$in: new Types.ObjectId(user)}}, 
+                    {members: {$in: new Types.ObjectId(doc._id)}}, 
+                ]
+            });
+
+            result.push({
+                user: doc, 
+                chat: conversation ?  conversation.chat : [],
+            })
+
+        }
+
+        return res.json({ users: result, success: true });
     } catch (error) {
         return res.json({ error: error.message, success: false });s
     }
