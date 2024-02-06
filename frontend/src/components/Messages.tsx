@@ -3,13 +3,16 @@ import { environmentApi } from "../environment";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { getusername, messageDateFormat } from "../utils/common";
+import Modal from "react-responsive-modal";
+import { io } from "socket.io-client";
+
+
 import { FaRegImage } from "react-icons/fa";
 import { MdOutlineGifBox } from "react-icons/md";
 import { BsEmojiSmile } from "react-icons/bs";
 import { VscSend } from "react-icons/vsc";
 import { FiSettings } from "react-icons/fi";
 import { LuMailPlus } from "react-icons/lu";
-import Modal from "react-responsive-modal";
 import { RxCross2 } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -22,8 +25,10 @@ function Messages(props: any) {
     const [conversation, setConversation] = useState<any>([]);
     const message = useRef(null);
     const scrollRef = useRef<any>();
+    const socket = useRef<any>();
 
     useEffect(() => {
+        socket.current = io("ws://localhost:8900");
         axios.get(environmentApi.host + `/conversation/${props.user._id}`)
         .then((res: any) => {
             if (res.data.success) {
@@ -33,6 +38,14 @@ function Messages(props: any) {
             }
         }).catch((err) => toast.error(err.response.data.message));
     }, []);
+    
+
+    useEffect(() => {
+        socket.current.emit("addUser", props.user._id);
+        socket.current.on("getUsers", (users) => {
+            console.log(users);
+        })
+    }, [props.user])
 
     useEffect(() => {
         if (isOpen) {
@@ -126,8 +139,8 @@ function Messages(props: any) {
                     {
                         conversation?.map((doc, index) => (
                             <div
-                                ref={scrollRef}
                                 key={index}
+                                ref={scrollRef}
                                 style={{
                                     display: 'flex',
                                     flexDirection: 'column',
