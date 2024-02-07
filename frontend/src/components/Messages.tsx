@@ -23,12 +23,20 @@ function Messages(props: any) {
     const [allUsers, setAllUsers] = useState<any>([]);
     const [users, setUsers] = useState<any>([]);
     const [conversation, setConversation] = useState<any>([]);
+    const [arrivalMessage, setArrivalMessage] = useState<any>(null);
     const message = useRef(null);
     const scrollRef = useRef<any>();
     const socket = useRef<any>();
 
     useEffect(() => {
         socket.current = io("ws://localhost:8900");
+        socket.current.on("getMessage", (data) => {
+            setArrivalMessage({
+                sender: data.senderId, 
+                message: data.text, 
+                date: new Date()
+            })
+        })
         axios.get(environmentApi.host + `/conversation/${props.user._id}`)
         .then((res: any) => {
             if (res.data.success) {
@@ -38,13 +46,18 @@ function Messages(props: any) {
             }
         }).catch((err) => toast.error(err.response.data.message));
     }, []);
+
+    useEffect(() => {
+        if(arrivalMessage && selectedUser.user._id.toString() === arrivalMessage.sender.toString()) {
+            const newConversation = [...conversation];
+            newConversation.push(arrivalMessage);
+            setConversation(newConversation);
+        }
+    }, [arrivalMessage, selectedUser]);
     
 
     useEffect(() => {
         socket.current.emit("addUser", props.user._id);
-        socket.current.on("getUsers", (users) => {
-            console.log(users);
-        })
     }, [props.user])
 
     useEffect(() => {
@@ -67,24 +80,38 @@ function Messages(props: any) {
             if (!oldUser) {
                 setUsers([...users, selectedUser]);
             }
-        }
+
+            axios.get(environmentApi.host + `/conversation/${props.user._id}/${selectedUser.user._id}`)
+            .then((res: any) => {
+                if (res.data.success) {
+                    setConversation(res.data.conversation.chat);
+                } else if (!res.success) {
+                    toast.error(res.data.error);
+                }
+            }).catch((err) => toast.error(err.response.data.message));
+    }
     }, [selectedUser]);
 
-    useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [conversation])
+    // useEffect(() => {
+    //     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    // }, [conversation])
 
     const sendMessage = () => {
         const messageString: any = (message.current as any)?.value; 
         if (messageString.length) {
+            socket.current.emit("sendMessage", {
+                senderId: props.user._id, 
+                receiverId: selectedUser.user._id, 
+                text: messageString 
+            });
+
             axios.post(environmentApi.host + '/conversation', {
                 conversationId: selectedUser?._id ? selectedUser._id : null, 
                 sender: props.user._id, 
-                reciever: selectedUser.user._id,
+                receiver: selectedUser.user._id,
                 message: messageString
             }).then((res: any) => {
                 if(res.data.success) {
-                    console.log(conversation);
                     if(!conversation.length) {
                         setSelectedUser({ ...selectedUser, _id: res.data.conversationDoc._id});
                         setConversation([{
@@ -140,7 +167,7 @@ function Messages(props: any) {
                         conversation?.map((doc, index) => (
                             <div
                                 key={index}
-                                ref={scrollRef}
+                                // ref={scrollRef}
                                 style={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -274,8 +301,7 @@ function Messages(props: any) {
                                         }}
                                         onClick={() => {
                                             setSelectedUser(null);
-                                            setSelectedUser(doc); 
-                                            setConversation(doc.chat);
+                                            setSelectedUser(doc);
                                             closeModal();
                                         }}
                                     >
@@ -313,7 +339,6 @@ function Messages(props: any) {
                                     onClick={() => {
                                         setSelectedUser(null);
                                         setSelectedUser(doc);
-                                        setConversation(doc.chat);
                                     }}
                                 >
                                     <img src={doc.user.imageUrl} className='user-dp' />

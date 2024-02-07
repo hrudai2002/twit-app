@@ -15,12 +15,28 @@ const removeUser = (socketId) => {
     onlineUsers = onlineUsers.filter((user) => user.socketId.toString() !== socketId.toString());
 }
 
+const getUser = (userId) => {
+    return onlineUsers.find((user) => user.onlineUserId.toString() === userId.toString());
+}
+
 io.on("connection", (socket) => {
+    // when connected
     console.log("a user is connected");
-    // get the userId 
+
+
+    // take userId and socketId from the user
     socket.on("addUser", (userId) => {
         addUser(userId, socket.id);  
         io.emit("getUsers", onlineUsers);
+    })
+
+    // send and get message 
+    socket.on("sendMessage", ({senderId, receiverId, text}) => {
+        const user = getUser(receiverId); 
+        io.to(user.socketId).emit("getMessage", {
+            senderId, 
+            text
+        })
     })
 
     // user disconnected

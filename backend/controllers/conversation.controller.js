@@ -24,16 +24,29 @@ const getConversations = async (req, res) => {
     }
 }
 
+// @get /:sender/:receiver 
+const getSingleConversation = async (req, res) => {
+    try {
+        const { sender, receiver } = req.params; 
+        const conversation = await Conversation.findOne({
+            members: { $all: [new Types.ObjectId(sender), new Types.ObjectId(receiver)] }
+        }).lean();
+        return res.json({ conversation, success: true });
+    } catch (error) {
+        return res.json({error: error.message, success: false});
+    }
+}
+
 // @post 
 const updateConversation = async (req, res) => {
     try {
-        const { conversationId, sender, reciever, message } = req.body; 
+        const { conversationId, sender, receiver, message } = req.body; 
 
         let conversationDoc;
        
         if(!conversationId) {
             conversationDoc = await Conversation.create({
-                members: [new Types.ObjectId(sender), new Types.ObjectId(reciever)], 
+                members: [new Types.ObjectId(sender), new Types.ObjectId(receiver)], 
                 chat: [{
                     sender, 
                     message, 
@@ -59,5 +72,6 @@ const updateConversation = async (req, res) => {
 
 export {
     getConversations, 
+    getSingleConversation,
     updateConversation
 }
