@@ -12,9 +12,20 @@ const getConversations = async (req, res) => {
         }).populate('members').lean(); 
 
         conversationDocs = conversationDocs.map((doc) => {
-            if (doc.members[0]._id.toString() === userId.toString()) 
-               return {user: doc.members[1], chat: doc.chat, _id: doc._id}; 
-            return {user: doc.members[0], chat: doc.chat, _id: doc._id};
+            const [user1, user2] = doc.members;
+            if (user1._id.toString() === userId.toString()) 
+               return { 
+                    _id: doc._id,
+                    user: user2, 
+                    chat: doc.chat, 
+                }
+
+            return {
+                _id: doc._id,
+                user: user1, 
+                chat: doc.chat, 
+            }
+                
         });
 
         return res.json({ conversationDocs, success: true});
@@ -31,7 +42,7 @@ const getSingleConversation = async (req, res) => {
         const conversation = await Conversation.findOne({
             members: { $all: [new Types.ObjectId(sender), new Types.ObjectId(receiver)] }
         }).lean();
-        return res.json({ conversation, success: true });
+        return res.status(200).json({ conversation, success: true });
     } catch (error) {
         return res.json({error: error.message, success: false});
     }
