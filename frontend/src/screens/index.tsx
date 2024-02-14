@@ -77,9 +77,9 @@ function HomePage(props: any){
 
 function App() {
     
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [showContent, setShowContent] = useState<string>("Home");
-    
+        
     const renderContent = (content: string) => {
         if(content == NAVBAR.HOME) {
             return <HomePage user={user} />

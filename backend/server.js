@@ -27,9 +27,9 @@ app.use(cookieParser());
 
 
 // Logs requests
-app.use((req, res) => {
-    console.log(`${req.method} ${req.url}`);
-})
+// app.use((req, res) => {
+//     console.log(`${req.method} ${req.url}`);
+// })
 
 app.use('/user', userRoutes);
 app.use('/posts', postsRoutes); 
