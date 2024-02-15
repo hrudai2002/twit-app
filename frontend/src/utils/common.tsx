@@ -23,5 +23,5 @@ export const postFormatDate = (dateString: string) => {
     if (minutes < 60) return minutes + "m";
     if (hours < 24) return hours + "h";
 
-    return date.getDate() + " " + months[date.getMonth()] + "," + date.getFullYear();
+    return date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear();
 }

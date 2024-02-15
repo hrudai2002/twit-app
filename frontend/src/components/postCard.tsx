@@ -27,7 +27,7 @@ import { postFormatDate } from "../utils/common";
 
 
 function PostCard(props: any) {
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [disable, setDisable] = useState<boolean>(true);
     const [comment, setComment] = useState<string>("");

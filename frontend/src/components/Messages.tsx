@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { environmentApi } from "../environment";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -16,8 +16,9 @@ import { LuMailPlus } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { UserContext } from "../contexts/userContext";
 
-function Messages(props: any) {
+function Messages() {
     const [selectedUser, setSelectedUser] = useState<any>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [allUsers, setAllUsers] = useState<any>([]);
@@ -27,6 +28,7 @@ function Messages(props: any) {
     const message = useRef(null);
     const scrollRef = useRef<any>();
     const socket = useRef<any>();
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         socket.current = io("ws://localhost:8900");
@@ -37,7 +39,7 @@ function Messages(props: any) {
                 date: new Date()
             })
         })
-        axios.get(environmentApi.host + `/conversation/${props.user._id}`)
+        axios.get(environmentApi.host + `/conversation/${user._id}`)
         .then((res: any) => {
             if (res.data.success) {
                 setUsers(res.data.conversationDocs);
@@ -57,12 +59,12 @@ function Messages(props: any) {
     
 
     useEffect(() => {
-        socket.current.emit("addUser", props.user._id);
-    }, [props.user])
+        socket.current.emit("addUser", user._id);
+    }, [user])
 
     useEffect(() => {
         if (isOpen) {
-            axios.get(environmentApi.host + `/user/${props.user._id}`)
+            axios.get(environmentApi.host + `/user/${user._id}`)
                 .then((res: any) => {
                     if (res.data.success) {
                         setAllUsers(res.data.users);
@@ -81,7 +83,7 @@ function Messages(props: any) {
                 setUsers([...users, selectedUser]);
             }
 
-            axios.get(environmentApi.host + `/conversation/${props.user._id}/${selectedUser.user._id}`)
+            axios.get(environmentApi.host + `/conversation/${user._id}/${selectedUser.user._id}`)
             .then((res: any) => {
                 if (res.data.success) {
                     setConversation(res.data.conversation.chat);
@@ -100,14 +102,14 @@ function Messages(props: any) {
         const messageString: any = (message.current as any)?.value; 
         if (messageString.length) {
             socket.current.emit("sendMessage", {
-                senderId: props.user._id, 
+                senderId: user._id, 
                 receiverId: selectedUser.user._id, 
                 text: messageString 
             });
 
             axios.post(environmentApi.host + '/conversation', {
                 conversationId: selectedUser?._id ? selectedUser._id : null, 
-                sender: props.user._id, 
+                sender: user._id, 
                 receiver: selectedUser.user._id,
                 message: messageString
             }).then((res: any) => {
@@ -115,14 +117,14 @@ function Messages(props: any) {
                     if(!conversation.length) {
                         setSelectedUser({ ...selectedUser, _id: res.data.conversationDoc._id});
                         setConversation([{
-                            sender: props.user._id,
+                            sender: user._id,
                             date: new Date(),
                             message: messageString,
                         }]);
                     } else {
                         const newConversation = [...conversation];
                         newConversation.push({
-                            sender: props.user._id,
+                            sender: user._id,
                             date: new Date(),
                             message: messageString,
                         });

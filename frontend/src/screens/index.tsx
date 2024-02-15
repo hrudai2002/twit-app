@@ -1,21 +1,19 @@
-import '../App.scss'; 
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts/userContext';
 import axios from 'axios';
 import { environmentApi } from '../environment';
 import { toast } from 'react-hot-toast';
-import { NAVBAR, SelectedTabs } from '../enum';
+import { SelectedTabs } from '../enum';
 
 
 // Components
-import Navbar from '../components/Navbar';
 import Feed from '../components/Feed';
-import Messages from '../components/Messages';
 import SideBar from '../components/SideBar';
 
 
 
-function HomePage(props: any){ 
+function App(){ 
+    const { user } = useContext(UserContext);
     const [selectedTab, setSelectedTab] = useState<string>(SelectedTabs.FORYOU);
     const [posts, setPosts] = useState<any>([]);
     const [disable, setDisable] = useState<boolean>(true);
@@ -37,7 +35,7 @@ function HomePage(props: any){
     }, []);
 
     const createPost = (post: string) => {
-        axios.post(environmentApi.host + '/posts', { user: props.user._id, description: post })
+        axios.post(environmentApi.host + '/posts', { user: user._id, description: post })
         .then((res) => {
             if(res.data.success) {
                 posts.unshift(res.data.post);
@@ -57,7 +55,7 @@ function HomePage(props: any){
             overflowY: 'auto'
         }}>
             <Feed 
-            user={props.user}
+            user={user}
             selectedTab={selectedTab} 
             changeTab={changeTab}
             disable={disable}
@@ -71,30 +69,4 @@ function HomePage(props: any){
         </div>
     )
 }
-
-
-
-
-function App() {
-    
-    const { user } = useContext(UserContext);
-    const [showContent, setShowContent] = useState<string>("Home");
-        
-    const renderContent = (content: string) => {
-        if(content == NAVBAR.HOME) {
-            return <HomePage user={user} />
-        } else if(content == NAVBAR.MESSAGES) {
-            return <Messages user={user} />
-        }
-        return <HomePage user={user} />
-    }
-
-    return (
-        <div className="home">
-            <Navbar user={user} setShowContent={setShowContent} />
-            { renderContent(showContent) }
-        </div>
-    )
-}
-
 export default App;
