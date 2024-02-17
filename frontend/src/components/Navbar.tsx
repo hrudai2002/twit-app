@@ -4,10 +4,11 @@ import { FaTwitter, FaUser } from 'react-icons/fa';
 import { GoBell } from 'react-icons/go';
 import { HiOutlineDotsCircleHorizontal } from 'react-icons/hi';
 import { IoPeopleSharp } from 'react-icons/io5';
-import { RiFileList2Fill, RiHome5Line } from 'react-icons/ri';
+import { RiBookmarkLine, RiFileList2Fill, RiHome5Line } from 'react-icons/ri';
 import { getusername } from '../utils/common';
 import { UserContext } from '../contexts/userContext';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { BsThreeDots } from 'react-icons/bs';
 
 
 function Navbar() {
@@ -31,16 +32,17 @@ function Navbar() {
             route: "chats"
         },
         {
+            icon: <RiBookmarkLine fontSize={24} />, 
+            name: "Bookmarks", 
+            route: "bookmarks"
+        },
+        {
             icon: <RiFileList2Fill fontSize={24} />,
             name: 'Lists'
         },
         {
             icon: <IoPeopleSharp fontSize={24} />,
             name: 'Communities'
-        },
-        {
-            icon: <FaTwitter fontSize={24} />,
-            name: 'Premium'
         },
         {
             icon: <FaUser fontSize={24} />,
@@ -52,7 +54,7 @@ function Navbar() {
         }
     ]
 
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate(); 
 
     useEffect(() => {
@@ -73,11 +75,31 @@ function Navbar() {
                         ))
                     }
                     <a href="" className='post-btn'>Post</a>
-                    <div className="profile">
-                        <img className='user-dp' src={user?.imageUrl} alt="" />
-                        <div className='user'>
-                            <div className='fullname'>{user?.name}</div>
-                            <div className='username'>{getusername(user?.name)}</div>
+                    <div style={{
+                        position: "relative",
+                        display: "flex", 
+                        justifyContent: "space-between", 
+                        alignItems: "center", 
+                        gap: "20px"
+                    }}>
+                        <div className="profile">
+                            <img className='user-dp' src={user?.imageUrl} alt="" />
+                            <div className='user'>
+                                <div className='fullname'>{user?.name}</div>
+                                <div className='username'>{getusername(user?.name)}</div>
+                            </div>
+                        </div>
+
+                        <div className='three-dots'>
+                            <BsThreeDots fontSize={18} cursor={"pointer"} />
+
+                            <div className="drop-down">
+                                <div>Add an existing account</div>
+                                <div onClick={() => {
+                                    setUser(null);
+                                    localStorage.setItem('user', '');
+                                }}>Log out { getusername(user?.name) }</div>
+                            </div>
                         </div>
                     </div>
                 </div>

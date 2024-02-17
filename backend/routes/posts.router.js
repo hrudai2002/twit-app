@@ -6,7 +6,8 @@ import {
     deletePost,
     commentPost,
     likePost,
-    bookmarkPost
+    bookmarkPost,
+    getAllBookmarkedPosts
  } from "../controllers/posts.controller.js";
 
 const router = express.Router(); 
@@ -28,6 +29,8 @@ router.route('/like')
 
 router.route('/bookmark')
        .post(bookmarkPost);
+
+router.get('/bookmarks/:userId', getAllBookmarkedPosts);
 
 export default router;
 

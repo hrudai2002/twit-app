@@ -35,7 +35,6 @@ function PostCard(props: any) {
     const [likeCount, setLikeCount] = useState<number>(0);
     const [bookmark, setBookMark] = useState<boolean>(false);
 
-
     useEffect(() => {
         const liked = !!(props?.post?.likedUsers?.find((doc) => doc.toString() === user?._id?.toString()));
         const bookmarked = !!(props?.post?.bookmarkedUsers?.find((doc) => doc.toString() === user?._id?.toString()));
@@ -119,7 +118,7 @@ function PostCard(props: any) {
     return (
         <div className="post-card">
             <div className="top-container">
-                <img src={props.post.user.imageUrl} className="user-dp" alt="" />
+                <img src={props.post.user.imageUrl} className="user-dp" />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     <div className="header">
                         <div><span className="user-name">{props.post.user.name}</span> · <span style={{ fontSize: '14px'}}>{postFormatDate(props.post.createdAt)}</span></div>

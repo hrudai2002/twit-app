@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         let loggedUser = isAuthenticated();
         if(!loggedUser) {
-            localStorage.setItem('user', ''); 
+            localStorage.setItem('user', '');
             loggedUser = '';
         }
         setUser(loggedUser);

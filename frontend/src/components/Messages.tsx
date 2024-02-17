@@ -28,7 +28,7 @@ function Messages() {
     const message = useRef(null);
     const scrollRef = useRef<any>();
     const socket = useRef<any>();
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         socket.current = io("ws://localhost:8900");

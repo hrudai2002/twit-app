@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './screens/index';
 import NavBar from "./components/Navbar";
 import Messages from "./components/Messages"
+import Bookmarks from "./components/Bookmarks"
 import AuthPage from './screens/auth';
 import { UserProvider } from './contexts/userContext.jsx';
 import PrivateRouter from './private-route/privateRoute';
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "chats", 
         element: <PrivateRouter><Messages/></PrivateRouter>
+      },
+      {
+        path: "bookmarks", 
+        element: <PrivateRouter><Bookmarks/></PrivateRouter>
       }
     ]
   },

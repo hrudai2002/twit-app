@@ -5,14 +5,25 @@ import User from '../models/user.model.js';
 // @route - /posts
 const getAllPosts = async (req, res) => {
     try {
-        const posts 
-        = await Posts.find({})
-                    .sort({ createdAt: -1 })
-                    .populate('user')
-                    .lean();
+        const posts = await Posts.find({})
+                                  .sort({ createdAt: -1 })
+                                  .populate('user')
+                                  .lean();
         return res.json({ posts, success: true });
     } catch (err) {
         return res.json({ error: err.message, success: false });
+    }
+}
+
+// @route - /bookmark 
+const getAllBookmarkedPosts = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const posts = await Posts.find({ bookmarkedUsers: { $in: userId } })
+                                 .populate('user').lean(); 
+        return res.json({ posts, success: true });
+    } catch (error) {
+        return res.json({ error: error.message, success: false });
     }
 }
 
@@ -133,6 +144,7 @@ const bookmarkPost = async (req, res) => {
 
 export {
     getAllPosts, 
+    getAllBookmarkedPosts,
     createPost,
     updatePost,
     deletePost, 

@@ -226,6 +226,34 @@ $modalOverlay: rgba(36, 45, 53, 0.7);
         }
 
     }
+
+    .three-dots {
+        &:hover {
+            .drop-down {
+                position: absolute; 
+                top: -50px;
+                right: 50%;
+                left: 50%;
+                z-index: 3;
+                display: block;
+                font-size: 18px;
+                display: flex; 
+                flex-direction: column;
+                gap: 10px;
+                width: 300px;
+                background-color: $black;
+                border: 2px solid $line;
+                padding: 15px;
+                border-radius: 10px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .drop-down {
+        display: none;
+    }
 }
 
 
@@ -479,7 +507,7 @@ $modalOverlay: rgba(36, 45, 53, 0.7);
     border: 1.5px solid $line;
     color: $white;
     width: 50%;
-    padding: 0;
+    padding: 15px;
 
     .post-modal {
         display: flex;
