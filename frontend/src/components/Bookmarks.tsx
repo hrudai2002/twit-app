@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "./SideBar";
-import { UserContext } from "../contexts/userContext";
 import { getusername } from "../utils/common";
-
 import { BsThreeDots } from "react-icons/bs";
 import axios from "axios";
 import { environmentApi } from "../environment";
 import toast from "react-hot-toast";
 import PostCard from "./postCard";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/userSlice";
 
 function Bookmarks() {
-    const { user } = useContext(UserContext);
+    const user = useSelector(selectUser);
     const [ posts, setPosts ] = useState<any>(null);
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { CiMail, CiSearch } from 'react-icons/ci';
 import { FaTwitter, FaUser } from 'react-icons/fa';
 import { GoBell } from 'react-icons/go';
@@ -6,9 +6,10 @@ import { HiOutlineDotsCircleHorizontal } from 'react-icons/hi';
 import { IoPeopleSharp } from 'react-icons/io5';
 import { RiBookmarkLine, RiFileList2Fill, RiHome5Line } from 'react-icons/ri';
 import { getusername } from '../utils/common';
-import { UserContext } from '../contexts/userContext';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { BsThreeDots } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../redux/slices/userSlice';
 
 
 function Navbar() {
@@ -54,8 +55,9 @@ function Navbar() {
         }
     ]
 
-    const { user, setUser } = useContext(UserContext);
+    const user = useSelector(selectUser);
     const navigate = useNavigate(); 
+    const dispatch = useDispatch();
 
     useEffect(() => {
         navigate('/home');
@@ -96,7 +98,7 @@ function Navbar() {
                             <div className="drop-down">
                                 <div>Add an existing account</div>
                                 <div onClick={() => {
-                                    setUser(null);
+                                    dispatch(logout());
                                     localStorage.setItem('user', '');
                                 }}>Log out { getusername(user?.name) }</div>
                             </div>

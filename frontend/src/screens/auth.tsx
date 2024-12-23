@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import { FaTwitter } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
@@ -8,8 +8,8 @@ import { environmentApi } from "../environment";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast'
 import { UserContext } from '../contexts/userContext';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login as loginAction, selectUser} from '../redux/slices/userSlice';
 
 const Login = (props: any) => {
     if(props.next) {
@@ -106,8 +106,9 @@ function AuthPage() {
     const [next, setNext] = useState<boolean>(false);
     const [login, setLogin] = useState<boolean>(true);
     const navigate = useNavigate(); 
+    const dispatch = useDispatch();
 
-    const { user, setUser } = useContext(UserContext);
+    const user = useSelector(selectUser);
 
     useEffect(() => {
         if(user) {
@@ -125,7 +126,7 @@ function AuthPage() {
             if(res.data.success) {
                 if(res.data.token) {
                     localStorage.setItem('user', JSON.stringify(res.data));
-                    setUser(res.data);
+                    dispatch(loginAction(res.data));
                 }
                 toast.success('registered successfully!');
             } else if(!res.data.success) {
@@ -142,7 +143,7 @@ function AuthPage() {
         }).then((res) => {
             if(res.data.success) {
                 localStorage.setItem('user', JSON.stringify(res.data));
-                setUser(res.data);
+                dispatch(loginAction(res.data));
                 setLogin(true);
                 toast.success('logged in successfully!');
             } else if(!res.data.success) {

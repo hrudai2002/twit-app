@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { environmentApi } from "../environment";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
@@ -12,7 +12,6 @@ import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
-import { UserContext } from "../contexts/userContext";
 import { FaRegImage } from "react-icons/fa6";
 import { MdOutlineGifBox } from "react-icons/md";
 import { BsEmojiSmile } from "react-icons/bs";
@@ -22,20 +21,20 @@ import { FaMapMarkerAlt } from "react-icons/fa"
 import { FaHeart } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
 import { postFormatDate } from "../utils/common";
-
-
-
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/userSlice";
 
 function PostCard(props: any) {
-    const { user } = useContext(UserContext);
+    const user = useSelector(selectUser)
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [disable, setDisable] = useState<boolean>(true);
     const [comment, setComment] = useState<string>("");
     const [like, setLike] = useState<boolean>(false);
     const [likeCount, setLikeCount] = useState<number>(0);
     const [bookmark, setBookMark] = useState<boolean>(false);
-
+    
     useEffect(() => {
+        if(!props.post) return;
         const liked = !!(props?.post?.likedUsers?.find((doc) => doc.toString() === user?._id?.toString()));
         const bookmarked = !!(props?.post?.bookmarkedUsers?.find((doc) => doc.toString() === user?._id?.toString()));
 

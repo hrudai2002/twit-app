@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../contexts/userContext';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { environmentApi } from '../environment';
 import { toast } from 'react-hot-toast';
@@ -9,15 +8,19 @@ import { SelectedTabs } from '../enum';
 // Components
 import Feed from '../components/Feed';
 import SideBar from '../components/SideBar';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slices/userSlice';
 
 
 
 function App(){ 
-    const { user } = useContext(UserContext);
+    const user = useSelector(selectUser)
     const [selectedTab, setSelectedTab] = useState<string>(SelectedTabs.FORYOU);
     const [posts, setPosts] = useState<any>([]);
     const [disable, setDisable] = useState<boolean>(true);
     const [post, setPost] = useState<string>('');
+
+    console.log('user: ', user);
     
     const changeTab = (tab: string) => {
         setSelectedTab(tab);

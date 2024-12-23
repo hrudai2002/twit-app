@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { environmentApi } from "../environment";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -16,7 +16,8 @@ import { LuMailPlus } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { UserContext } from "../contexts/userContext";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/userSlice";
 
 function Messages() {
     const [selectedUser, setSelectedUser] = useState<any>(null);
@@ -28,7 +29,7 @@ function Messages() {
     const message = useRef(null);
     const scrollRef = useRef<any>();
     const socket = useRef<any>();
-    const { user } = useContext(UserContext);
+    const user = useSelector(selectUser);
 
     useEffect(() => {
         socket.current = io("ws://localhost:8900");

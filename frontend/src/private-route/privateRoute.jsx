@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import { UserContext } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux"; 
+import { selectUser } from "../redux/slices/userSlice";
 
 function PrivateRouter({ children }) {
-    const { user } = useContext(UserContext);
+    const user = useSelector(selectUser);
     const navigate = useNavigate();
 
     if(!user) {
